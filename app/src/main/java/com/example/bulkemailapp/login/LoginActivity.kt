@@ -16,6 +16,7 @@ import com.example.bulkemailapp.extra.Constants
 import com.example.bulkemailapp.extra.SharedPrefHelper
 import com.example.bulkemailapp.sendemail.SendEmail
 import com.example.bulkemailapp.utils.MailHelper
+import com.example.bulkemailapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
@@ -75,6 +76,7 @@ class LoginActivity : AppCompatActivity() {
                 else -> {
                     tv_password.errorIconDrawable = null
                     tv_username.errorIconDrawable = null
+                    Utils.hideKeyboard(this, btn_login)
                     mailHelper.setUser(
                         et_username.text.toString().trim(),
                         et_password.text.toString().trim()
@@ -104,6 +106,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun renderUpdateErrorResponse() {
         mailHelper.removeUser()
+        Utils.popUpKeyboard(this, et_username)
         Toast.makeText(this, "Incorrect username or password", Toast.LENGTH_LONG).show()
     }
 

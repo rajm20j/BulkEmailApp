@@ -92,7 +92,7 @@
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/progress_loader"
-        style="@style/SpinKitView.Large.RotatingCircle"
+        style="@style/SpinKitView.Large.Pulse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="120dp"

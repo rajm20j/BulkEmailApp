@@ -39,7 +39,7 @@ class SendEmail : AppCompatActivity() {
             if(TextUtils.isEmpty(et_email.text))
             {
                 et_email.requestFocus()
-                Utils.popKeyboard(this, et_email)
+                Utils.popUpKeyboard(this, et_email)
                 Toast.makeText(this, "Need a recipient address", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
