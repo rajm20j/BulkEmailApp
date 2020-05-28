@@ -1,15 +1,19 @@
 package com.example.bulkemailapp.utils
 
+import android.util.Log
 import com.example.bulkemailapp.extra.Constants
 import com.example.bulkemailapp.extra.SharedPrefHelper
 import java.util.*
 import javax.mail.Authenticator
+import javax.mail.Message
 import javax.mail.PasswordAuthentication
 import javax.mail.Session
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
 
 
 class MailHelper {
-    private var session: Session? = null
+    var session: Session? = null
     var user = mutableMapOf<String, String?>()
 
 
@@ -40,8 +44,10 @@ class MailHelper {
             val transport = session?.getTransport("smtp")
             transport?.connect(host, user[Constants.senderEmail], user[Constants.senderPass])
             transport?.close()
+            session = null
             Constants.True
         } catch (e: Exception) {
+            Log.v("MAINNN", e.toString())
             e.printStackTrace()
             Constants.False
         }
@@ -64,7 +70,19 @@ class MailHelper {
         })
     }
 
-    fun generateMessage() {
+    fun generateMessage(recipient: String, subject: String, body: String): Message {
+        val message: Message = MimeMessage(session)
+        try {
+            message.setFrom(InternetAddress(Constants.senderEmail))
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient.trim()))
+            message.subject = subject.trim()
+            message.setText(body.trim())
+            message
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.v("MAINN", e.toString())
+        }
+        return message
     }
 
     fun removeUser()

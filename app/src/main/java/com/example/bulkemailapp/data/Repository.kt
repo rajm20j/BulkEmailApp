@@ -21,7 +21,6 @@ class Repository {
     }
 
     fun executeSendEmail(message: Message): String {
-        Log.v("MAINN", "Thread name: ${Thread.currentThread().name}")
         return try {
             Transport.send(message)
             Constants.success
@@ -31,6 +30,7 @@ class Repository {
             } else {
                 e.toString()
             }
+            Log.v("MAINN", e.toString())
             Constants.error
         }
     }

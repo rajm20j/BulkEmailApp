@@ -7,11 +7,13 @@ import androidx.lifecycle.ViewModel
 import com.example.bulkemailapp.data.Repository
 import com.example.bulkemailapp.extra.Constants
 import com.example.bulkemailapp.extra.SharedPrefHelper
+import com.example.bulkemailapp.utils.MailHelper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
+import javax.inject.Inject
 import javax.mail.Authenticator
 import javax.mail.Message
 import javax.mail.PasswordAuthentication
@@ -19,45 +21,20 @@ import javax.mail.Session
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
-class SendEmailViewModel(private val repository: Repository) : ViewModel() {
+class SendEmailViewModel(private val repository: Repository, private val mailHelper: MailHelper) : ViewModel() {
     private val disposable = CompositeDisposable()
     private val responseLiveData = MutableLiveData<String>()
 
     internal val listResponse: LiveData<String>
         get() = responseLiveData
 
-    internal fun hitSendMail(to: String, subject: String, msg: String) {
+    internal fun hitSendMail(recipient: String, subject: String, body: String) {
 
-        Log.v("MAINNN", "$to, $subject and $msg")
+        Log.v("MAINNN", "$recipient, $subject and $body")
 
-        val yourEmail = SharedPrefHelper.getStr(Constants.senderEmail)
-        val yourPassword = SharedPrefHelper.getStr(Constants.senderPass)
-
-        val properties = Properties()
-        properties["mail.smtp.auth"] = "true"
-        properties["mail.smtp.starttls.enable"] = "true"
-        properties["mail.smtp.host"] = "smtp.gmail.com"
-        properties["mail.smtp.port"] = "587"
-
-        Log.v("MAINN", "properties")
-
-        val session: Session = Session.getInstance(properties, object : Authenticator() {
-            override fun getPasswordAuthentication(): PasswordAuthentication {
-                Log.v("MAINN", "getPasswordAuthentication()")
-                return PasswordAuthentication(yourEmail, yourPassword)
-            }
-        })
-        val message: Message = MimeMessage(session)
-        try {
-            Log.v("MAINN", "SendMail")
-            message.setFrom(InternetAddress(yourEmail))
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to.trim()))
-            message.subject = subject.trim()
-            message.setText(msg.trim())
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.v("MAINN", e.toString())
-        }
+        if(mailHelper.session == null)
+            mailHelper.generateSession("smtp.gmail.com", "587")
+        val message = mailHelper.generateMessage(recipient, subject, body)
 
         disposable.add(
             Observable.fromCallable {

@@ -3,13 +3,14 @@ package com.example.bulkemailapp.sendemail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.bulkemailapp.data.Repository
+import com.example.bulkemailapp.utils.MailHelper
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
-class SendEmailVMFactory @Inject constructor(private val repository: Repository) : ViewModelProvider.Factory {
+class SendEmailVMFactory @Inject constructor(private val repository: Repository, private val mailHelper: MailHelper) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SendEmailViewModel::class.java)) {
-            return SendEmailViewModel(repository) as T
+            return SendEmailViewModel(repository, mailHelper) as T
         }
         throw IllegalArgumentException("Unknown class name")
     }

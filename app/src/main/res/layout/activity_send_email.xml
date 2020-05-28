@@ -17,6 +17,9 @@
         app:boxBackgroundMode="none"
         android:layout_margin="8dp"
         android:padding="8dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_add_circle"
+        app:endIconContentDescription="Add multiple emails"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">

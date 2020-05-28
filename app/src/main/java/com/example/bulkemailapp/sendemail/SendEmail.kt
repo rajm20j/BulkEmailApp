@@ -1,5 +1,6 @@
 package com.example.bulkemailapp.sendemail
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -12,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.bulkemailapp.MyApp
 import com.example.bulkemailapp.R
+import com.example.bulkemailapp.addMoreEmail.AddEmailActivity
 import com.example.bulkemailapp.data.model.ApiResponse
 import com.example.bulkemailapp.data.model.Status
 import com.example.bulkemailapp.extra.Constants
@@ -35,6 +37,10 @@ class SendEmail : AppCompatActivity() {
             ViewModelProvider(this, sendEmailVMFactory).get(SendEmailViewModel::class.java)
         sendEmailViewModel.listResponse.observe(this, Observer { this.consumeUpdateResponse(it) })
 
+        initializeClickListeners()
+    }
+
+    private fun initializeClickListeners() {
         btn_send.setOnClickListener {
             if(TextUtils.isEmpty(et_email.text))
             {
@@ -48,6 +54,10 @@ class SendEmail : AppCompatActivity() {
                 et_subject.text.toString(),
                 et_msg.text.toString()
             )
+        }
+
+        tv_email.setEndIconOnClickListener {
+            startActivity(Intent(this, AddEmailActivity::class.java))
         }
     }
 

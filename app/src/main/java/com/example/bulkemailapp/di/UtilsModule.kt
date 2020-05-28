@@ -29,8 +29,8 @@ class UtilsModule {
 
     @Provides
     @Singleton
-    internal fun getSendEmailVMFactory(repository: Repository): ViewModelProvider.Factory {
-        return SendEmailVMFactory(repository)
+    internal fun getSendEmailVMFactory(repository: Repository, mailHelper: MailHelper): ViewModelProvider.Factory {
+        return SendEmailVMFactory(repository, mailHelper)
     }
 
     @Provides
