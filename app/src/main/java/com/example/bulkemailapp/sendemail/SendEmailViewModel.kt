@@ -21,9 +21,9 @@ import javax.mail.internet.MimeMessage
 
 class SendEmailViewModel(private val repository: Repository) : ViewModel() {
     private val disposable = CompositeDisposable()
-    private val responseLiveData = MutableLiveData<ApiResponse>()
+    private val responseLiveData = MutableLiveData<String>()
 
-    internal val listResponse: LiveData<ApiResponse>
+    internal val listResponse: LiveData<String>
         get() = responseLiveData
 
     internal fun hitSendMail(to: String, subject: String, msg: String) {
@@ -60,15 +60,15 @@ class SendEmailViewModel(private val repository: Repository) : ViewModel() {
         }
 
         disposable.add(
-            Single.fromCallable {
+            Observable.fromCallable {
                 repository.executeSendEmail(message)
             }
-                .subscribeOn(Schedulers.single())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { responseLiveData.value = ApiResponse.loading() }
+                .doOnSubscribe { responseLiveData.value = Constants.loading }
                 .subscribe(
-                    { responseLiveData.value = ApiResponse.complete() },
-                    { error -> responseLiveData.value = ApiResponse.error(error) }
+                    { result -> responseLiveData.value = result },
+                    { error -> responseLiveData.value = error.toString() }
                 )
         )
     }
