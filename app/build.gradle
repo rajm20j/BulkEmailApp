@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.bulkemailapp"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -61,4 +61,7 @@ dependencies {
     implementation files('libs/activation.jar')
     implementation files('libs/additional.jar')
     implementation files('libs/mail.jar')
+
+    //SpinKit progress loader
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 }

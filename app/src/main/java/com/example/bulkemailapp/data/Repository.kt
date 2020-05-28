@@ -2,14 +2,9 @@ package com.example.bulkemailapp.data
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import com.example.bulkemailapp.MyApp
 import com.example.bulkemailapp.extra.Constants
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
+import com.example.bulkemailapp.utils.MailHelper
 import java.lang.Exception
 import javax.inject.Inject
 import javax.mail.*
@@ -17,6 +12,9 @@ import javax.mail.*
 class Repository {
     @Inject
     lateinit var context: Context
+
+    @Inject
+    lateinit var mailHelper: MailHelper
 
     init {
         (MyApp.context as MyApp).myComponent.doInjection(this)
@@ -35,5 +33,10 @@ class Repository {
             }
             Constants.error
         }
+    }
+
+    fun testConn(host: String, port: String): String
+    {
+        return mailHelper.testConnection(host, port)
     }
 }

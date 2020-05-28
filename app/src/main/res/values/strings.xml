@@ -5,4 +5,8 @@
     <string name="message">Message</string>
     <string name="gmail_username">Gmail Username</string>
     <string name="logout">Logout</string>
+    <string name="welcome">Welcome</string>
+    <string name="sign_in_to_continue">Sign in to continue</string>
+    <string name="login">Login</string>
+    <string name="send_mail">Send Mail</string>
 </resources>

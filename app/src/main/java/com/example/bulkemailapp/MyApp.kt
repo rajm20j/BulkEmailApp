@@ -3,6 +3,7 @@ package com.example.bulkemailapp
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.bulkemailapp.di.AppComponent
 import com.example.bulkemailapp.di.AppModule
 import com.example.bulkemailapp.di.DaggerAppComponent
@@ -21,6 +22,8 @@ class MyApp : Application() {
         super.onCreate()
         myComponent = createMyComponent()
         context = this.applicationContext
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 
     private fun createMyComponent(): AppComponent{

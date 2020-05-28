@@ -6,4 +6,6 @@ object Constants {
     const val loading = "loading"
     const val success = "success"
     var error = ""
+    const val True = "true"
+    const val False = "false"
 }

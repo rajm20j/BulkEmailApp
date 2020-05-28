@@ -2,10 +2,12 @@ package com.example.bulkemailapp.sendemail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.bulkemailapp.MyApp
@@ -34,6 +36,13 @@ class SendEmail : AppCompatActivity() {
         sendEmailViewModel.listResponse.observe(this, Observer { this.consumeUpdateResponse(it) })
 
         btn_send.setOnClickListener {
+            if(TextUtils.isEmpty(et_email.text))
+            {
+                et_email.requestFocus()
+                Utils.popKeyboard(this, et_email)
+                Toast.makeText(this, "Need a recipient address", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             sendEmailViewModel.hitSendMail(
                 et_email.text.toString(),
                 et_subject.text.toString(),
@@ -87,6 +96,16 @@ class SendEmail : AppCompatActivity() {
         if (item.itemId == R.id.logout) {
             Utils.logout(this)
             return true
+        }
+        if (item.itemId == R.id.dark_switch)
+        {
+            if(item.isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+            else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+            item.isChecked = !item.isChecked
         }
         return super.onOptionsItemSelected(item)
     }
