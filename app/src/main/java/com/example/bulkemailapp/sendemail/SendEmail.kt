@@ -3,12 +3,14 @@ package com.example.bulkemailapp.sendemail
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.text.parseAsHtml
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.bulkemailapp.MyApp
@@ -18,6 +20,7 @@ import com.example.bulkemailapp.data.model.ApiResponse
 import com.example.bulkemailapp.data.model.Status
 import com.example.bulkemailapp.extra.Constants
 import com.example.bulkemailapp.utils.Utils
+import com.example.bulkemailapp.utils.parseHtml
 import kotlinx.android.synthetic.main.activity_send_email.*
 import javax.inject.Inject
 
@@ -38,6 +41,12 @@ class SendEmail : AppCompatActivity() {
         sendEmailViewModel.listResponse.observe(this, Observer { this.consumeUpdateResponse(it) })
 
         initializeClickListeners()
+//        enableTextFormat()
+    }
+
+    private fun enableTextFormat() {
+        val str = "<u><i><b>Message</b></i></u>"
+        et_msg.setText(str.parseHtml())
     }
 
     private fun initializeClickListeners() {

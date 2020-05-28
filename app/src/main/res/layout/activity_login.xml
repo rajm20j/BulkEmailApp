@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginEnd="24dp"
+    android:layout_marginEnd="32dp"
     android:background="@color/cardview_light_background"
     android:elevation="8dp"
     android:outlineProvider="bounds"
@@ -78,12 +78,19 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_login"
         style="?attr/materialButtonOutlinedStyle"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:shapeAppearance="@style/ShapeAppearance.MaterialComponents.LargeComponent"
+        app:rippleColor="@color/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:text="@string/login"
         android:textAllCaps="true"
         app:layout_constraintEnd_toEndOf="parent"
