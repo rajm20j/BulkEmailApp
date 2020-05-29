@@ -23,6 +23,21 @@
         tools:listitem="@layout/email_list_item"
         tools:itemCount="3"/>
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btn_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/submit"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@android:color/white"
+        app:iconTint="@android:color/white"
+        app:fabSize="auto"
+        app:icon="@drawable/ic_check_circle"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_emails"
+        app:layout_constraintEnd_toEndOf="@+id/rv_emails"/>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_add_more"
         android:layout_width="match_parent"

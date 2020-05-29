@@ -61,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
                         tv_username.errorIconDrawable = resources.getDrawable(R.drawable.ic_error)
                     }
                     et_username.requestFocus()
+                    Utils.popUpKeyboard(this, et_username)
                 }
                 TextUtils.isEmpty(et_password.text) -> {
                     tv_username.errorIconDrawable = null
@@ -72,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
                         tv_password.errorIconDrawable = resources.getDrawable(R.drawable.ic_error)
                     }
                     et_password.requestFocus()
+                    Utils.popUpKeyboard(this, et_password)
                 }
                 else -> {
                     tv_password.errorIconDrawable = null

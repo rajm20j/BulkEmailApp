@@ -3,10 +3,12 @@ package com.example.bulkemailapp.utils
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
+import android.text.TextUtils
 
-/**
- * Created by Divya Gupta on 12-Dec-19.
- **/
+fun String.isEmailId() : Boolean
+{
+    return this.contains('@')
+}
 
 fun String.parseHtml(): Spanned {
     return if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {

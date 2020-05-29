@@ -2,6 +2,8 @@ package com.example.bulkemailapp.extra
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
+import com.example.bulkemailapp.addMoreEmail.model.AddEmailListModel
 
 class SharedPrefHelper(context: Context) {
     init {
@@ -11,6 +13,7 @@ class SharedPrefHelper(context: Context) {
     companion object {
         private const val PREFS_NAME = "appname_prefs"
         private lateinit var sharedPreferences: SharedPreferences
+        val emailList = mutableListOf<AddEmailListModel>()
 
         fun setInt(key: String, value: Int) {
             sharedPreferences.edit().putInt(key, value)?.apply()
@@ -42,5 +45,13 @@ class SharedPrefHelper(context: Context) {
         fun getBool(key: String): Boolean {
             return sharedPreferences.getBoolean(key, false)
         }
+    }
+
+    fun addToList(item: AddEmailListModel): Boolean {
+        return emailList.add(item)
+    }
+
+    fun getEmailList(): MutableList<AddEmailListModel> {
+        return emailList
     }
 }

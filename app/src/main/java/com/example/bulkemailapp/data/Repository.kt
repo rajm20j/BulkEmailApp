@@ -3,7 +3,9 @@ package com.example.bulkemailapp.data
 import android.content.Context
 import android.util.Log
 import com.example.bulkemailapp.MyApp
+import com.example.bulkemailapp.addMoreEmail.model.AddEmailListModel
 import com.example.bulkemailapp.extra.Constants
+import com.example.bulkemailapp.extra.SharedPrefHelper
 import com.example.bulkemailapp.utils.MailHelper
 import java.lang.Exception
 import javax.inject.Inject
@@ -15,6 +17,9 @@ class Repository {
 
     @Inject
     lateinit var mailHelper: MailHelper
+
+    @Inject
+    lateinit var sharedPrefHelper: SharedPrefHelper
 
     init {
         (MyApp.context as MyApp).myComponent.doInjection(this)
@@ -38,5 +43,9 @@ class Repository {
     fun testConn(host: String, port: String): String
     {
         return mailHelper.testConnection(host, port)
+    }
+
+    fun addItem(item: AddEmailListModel): Boolean {
+        return sharedPrefHelper.addToList(item)
     }
 }

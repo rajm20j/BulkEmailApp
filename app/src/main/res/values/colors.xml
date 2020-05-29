@@ -6,4 +6,5 @@
     <color name="almostBlack">#1a1a1a</color>
     <color name="almostWhite">#ebebeb</color>
     <color name="gray">#ACACAC</color>
+    <color name="transparent">#00ACACAC</color>
 </resources>

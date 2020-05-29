@@ -1,5 +1,7 @@
 package com.example.bulkemailapp.extra
 
+import com.example.bulkemailapp.addMoreEmail.model.AddEmailListModel
+
 object Constants {
     const val senderEmail = "senderEmail"
     const val senderPass = "senderPass"
