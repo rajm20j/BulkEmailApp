@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
+import androidx.core.view.size
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,12 +13,14 @@ import com.example.bulkemailapp.R
 import com.example.bulkemailapp.addMoreEmail.model.AddEmailAdapter
 import com.example.bulkemailapp.addMoreEmail.model.AddEmailListModel
 import com.example.bulkemailapp.extra.SharedPrefHelper
+import com.example.bulkemailapp.utils.AddEmailDialogListener
+import com.example.bulkemailapp.utils.DialogHelper
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_add_email.*
 import com.example.bulkemailapp.utils.isEmailId
 import javax.inject.Inject
 
-class AddEmailActivity : AppCompatActivity() {
+class AddEmailActivity : AppCompatActivity(), AddEmailDialogListener {
 
     @Inject
     lateinit var addEmailVMFactory: AddEmailVMFactory
@@ -46,19 +49,16 @@ class AddEmailActivity : AppCompatActivity() {
         rv_emails.layoutManager = LinearLayoutManager(this)
 
         if(sharedPrefHelper.getEmailList().isEmpty()) {
-            addEmailViewModel.addToRv(AddEmailListModel())
         }
         rv_emails.adapter?.notifyDataSetChanged()
 
         btn_add_more.setOnClickListener {
-            val str = rv_emails.getChildAt(adapter.listItems.size-1).findViewById<TextInputEditText>(R.id.et_email_id).text.toString()
-            if(!TextUtils.isEmpty(str))
-            {
-                if(str.isEmailId())
-                    addEmailViewModel.addToRv(AddEmailListModel())
-                else
-                    Toast.makeText(this,"Enter a valid email address", Toast.LENGTH_SHORT).show()
-            }
+            val dialog = DialogHelper(this, this)
+            dialog.getAddEmailDialog()
+        }
+
+        btn_submit.setOnClickListener {
+            finish()
         }
     }
 
@@ -67,5 +67,16 @@ class AddEmailActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         else
             Toast.makeText(this, "Unable to add email address", Toast.LENGTH_LONG).show()
+    }
+
+    override fun getEmailDialogBox(email: String, name: String) {
+        val item = AddEmailListModel()
+        item.email = email
+        item.name = name
+        addEmailViewModel.addToRv(item)
+    }
+
+    override fun dismissDialog() {
+        rv_emails.adapter?.notifyDataSetChanged()
     }
 }

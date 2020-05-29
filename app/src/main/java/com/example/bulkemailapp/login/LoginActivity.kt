@@ -108,8 +108,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun renderUpdateErrorResponse() {
         mailHelper.removeUser()
-        Utils.popUpKeyboard(this, et_username)
-        Toast.makeText(this, "Incorrect username or password", Toast.LENGTH_LONG).show()
+//        Utils.popUpKeyboard(this, et_username)
+//        Toast.makeText(this, "Incorrect username or password", Toast.LENGTH_LONG).show()
+        Utils.generateSnackbar(login_constraint, "Incorrect username or password")
     }
 
     private fun renderUpdateCompleteResponse() {

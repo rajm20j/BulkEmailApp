@@ -13,4 +13,8 @@
     <string name="email_id">Email Id</string>
     <string name="add_more">Add More</string>
     <string name="submit">Submit</string>
+    <string name="add_email">Add Email</string>
+    <string name="email_cannot_empty">Email cannot be empty</string>
+    <string name="need_recipient">Need a valid email address</string>
+    <string name="view_list">View the list</string>
 </resources>

@@ -1,97 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp">
+    android:id="@+id/send_email_coord">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tv_email"
-        android:layout_height="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:background="@color/cardview_light_background"
-        android:outlineProvider="bounds"
-        android:elevation="@dimen/cardview_default_elevation"
-        app:boxBackgroundMode="none"
-        android:layout_margin="8dp"
-        android:padding="8dp"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_add_circle"
-        app:endIconContentDescription="Add multiple emails"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="@string/to"
-        app:hintTextColor="@color/colorAccent">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_email"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tv_email"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:importantForAutofill="no"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_margin="8dp"
+            android:background="@color/cardview_light_background"
+            android:elevation="@dimen/cardview_default_elevation"
+            android:hint="@string/to"
+            android:outlineProvider="bounds"
+            android:padding="8dp"
+            app:boxBackgroundMode="none"
+            app:endIconContentDescription="Add multiple emails"
+            app:endIconDrawable="@drawable/ic_add_circle"
+            app:endIconMode="custom"
+            app:hintTextColor="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tv_subject"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:boxBackgroundMode="none"
-        android:background="@color/cardview_light_background"
-        android:outlineProvider="bounds"
-        android:elevation="@dimen/cardview_default_elevation"
-        android:layout_margin="8dp"
-        android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_email"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="@string/subject"
-        app:hintTextColor="@color/colorAccent">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_subject"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:visibility="visible"
+            android:id="@+id/btn_add_more_to_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:padding="16dp"
+            android:text="@string/view_list"
+            app:rippleColor="@color/colorAccent"
+            app:icon="@drawable/ic_add_circle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_email"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tv_subject"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailSubject"
-            android:importantForAutofill="no"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_margin="8dp"
+            android:background="@color/cardview_light_background"
+            android:elevation="@dimen/cardview_default_elevation"
+            android:hint="@string/subject"
+            android:outlineProvider="bounds"
+            android:padding="8dp"
+            app:boxBackgroundMode="none"
+            app:hintTextColor="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_email">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tv_msg"
-        android:layout_height="0dp"
-        android:layout_width="match_parent"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:boxBackgroundMode="none"
-        android:background="@color/cardview_light_background"
-        android:outlineProvider="bounds"
-        android:elevation="@dimen/cardview_default_elevation"
-        android:layout_margin="8dp"
-        android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_subject"
-        app:layout_constraintBottom_toTopOf="@+id/btn_send"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="@string/message"
-        app:hintTextColor="@color/colorAccent">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_msg"
-            android:gravity="top"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="textEmailSubject" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tv_msg"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:importantForAutofill="no"/>
-    </com.google.android.material.textfield.TextInputLayout>
-    <Button
-        android:id="@+id/btn_send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="24dp"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:text="@string/send_mail"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            android:background="@color/cardview_light_background"
+            android:elevation="@dimen/cardview_default_elevation"
+            android:hint="@string/message"
+            android:outlineProvider="bounds"
+            android:padding="8dp"
+            app:boxBackgroundMode="none"
+            app:hintTextColor="@color/colorAccent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_send"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_subject">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_msg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:importantForAutofill="no" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/send_mail"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

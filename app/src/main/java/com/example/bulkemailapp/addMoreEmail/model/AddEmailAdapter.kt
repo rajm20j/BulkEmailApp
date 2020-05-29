@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bulkemailapp.R
@@ -23,8 +24,8 @@ class AddEmailAdapter() : RecyclerView.Adapter<AddEmailAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val listPositionItem = listItems[position]
-        holder.name.setText(listPositionItem.name)
-        holder.email.setText(listPositionItem.email)
+        holder.name.text = listPositionItem.name
+        holder.email.text = listPositionItem.email
     }
 
     override fun getItemCount(): Int {
@@ -37,8 +38,8 @@ class AddEmailAdapter() : RecyclerView.Adapter<AddEmailAdapter.ViewHolder>() {
     
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val constraintLayout = itemView.findViewById(R.id.the_big_view) as ConstraintLayout
-        val email = itemView.findViewById(R.id.et_email_id) as TextInputEditText
-        val name = itemView.findViewById(R.id.et_name) as TextInputEditText
+        val email = itemView.findViewById(R.id.tv_email_id) as TextView
+        val name = itemView.findViewById(R.id.tv_name) as TextView
     }
 
     constructor(context: Context, listItems: MutableList<AddEmailListModel>) : this() {

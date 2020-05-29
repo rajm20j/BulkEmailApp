@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -15,6 +16,7 @@ import com.example.bulkemailapp.MyApp
 import com.example.bulkemailapp.R
 import com.example.bulkemailapp.addMoreEmail.AddEmailActivity
 import com.example.bulkemailapp.extra.Constants
+import com.example.bulkemailapp.extra.SharedPrefHelper
 import com.example.bulkemailapp.utils.Utils
 import com.example.bulkemailapp.utils.parseHtml
 import kotlinx.android.synthetic.main.activity_send_email.*
@@ -26,6 +28,12 @@ class SendEmail : AppCompatActivity() {
 
     @Inject
     lateinit var sendEmailVMFactory: SendEmailVMFactory
+
+    @Inject
+    lateinit var sharedPrefHelper: SharedPrefHelper
+
+    var multipleMail = false
+    var iterator = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,21 +55,41 @@ class SendEmail : AppCompatActivity() {
 
     private fun initializeClickListeners() {
         btn_send.setOnClickListener {
-            if(TextUtils.isEmpty(et_email.text))
-            {
-                et_email.requestFocus()
-                Utils.popUpKeyboard(this, et_email)
-                Toast.makeText(this, "Need a recipient address", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
+            Log.v("MAINNN", multipleMail.toString())
+            if (sharedPrefHelper.getEmailList().isEmpty()) {
+                if (TextUtils.isEmpty(et_email.text)) {
+                    et_email.requestFocus()
+                    Utils.popUpKeyboard(this, et_email)
+                    et_email.setError(this.getString(R.string.need_recipient), null)
+                }
+                else
+                {
+                    Log.v("MAINNN", "Single")
+                    sendEmailViewModel.hitSendMail(
+                        et_email.text.toString().trim(),
+                        et_subject.text.toString(),
+                        et_msg.text.toString()
+                    )
+                }
+            } else {
+                Log.v("MAINNN", "Multiple")
+                multipleMail = true
+                val email = sharedPrefHelper.getEmailList()[iterator].email
+                val msg = sharedPrefHelper.getEmailList()[iterator].name
+                sendEmailViewModel.hitSendMail(
+                    email,
+                    et_subject.text.toString(),
+                    msg
+                )
+                iterator += 1
             }
-            sendEmailViewModel.hitSendMail(
-                et_email.text.toString(),
-                et_subject.text.toString(),
-                et_msg.text.toString()
-            )
         }
 
         tv_email.setEndIconOnClickListener {
+            startActivity(Intent(this, AddEmailActivity::class.java))
+        }
+
+        btn_add_more_to_list.setOnClickListener {
             startActivity(Intent(this, AddEmailActivity::class.java))
         }
     }
@@ -82,23 +110,55 @@ class SendEmail : AppCompatActivity() {
 
     private fun renderUpdateErrorResponse() {
         Log.v("MAINN", Constants.error)
-        if(Constants.error.equals("javax.mail.AuthenticationFaile"))
-        {
-            Toast.makeText(this, "Authentication error, please login again", Toast.LENGTH_LONG).show()
-            Utils.logout(this)
+        when (Constants.error) {
+            "javax.mail.AuthenticationFaile" -> {
+                Toast.makeText(this, "Authentication error, please login again", Toast.LENGTH_LONG)
+                    .show()
+                Utils.logout(this)
+            }
+            "javax.mail.SendFailedException" -> {
+                Utils.generateSnackbar(send_email_coord, "Network Error")
+            }
+            else -> {
+                Utils.generateSnackbar(send_email_coord, "Some error occurred")
+            }
         }
-        else if(Constants.error.equals("javax.mail.SendFailedException"))
-        {
-            Toast.makeText(this, "Network Error", Toast.LENGTH_LONG).show()
-        }
-        else
-        {
-            Toast.makeText(this, "Some error occurred", Toast.LENGTH_LONG).show()
+
+        if (multipleMail) {
+            if (iterator != sharedPrefHelper.getEmailList().size) {
+                val email = sharedPrefHelper.getEmailList()[iterator].email
+                val msg = sharedPrefHelper.getEmailList()[iterator].name
+                sendEmailViewModel.hitSendMail(
+                    email,
+                    et_subject.text.toString(),
+                    msg
+                )
+                iterator += 1
+            } else {
+                multipleMail = false
+                Utils.generateSnackbar(send_email_coord, "Unable to send ${iterator}th mails")
+            }
         }
     }
 
     private fun renderUpdateCompleteResponse() {
-        Toast.makeText(this, "Email Sent", Toast.LENGTH_LONG).show()
+        if (multipleMail) {
+            if (iterator != sharedPrefHelper.getEmailList().size) {
+                val email = sharedPrefHelper.getEmailList()[iterator].email
+                val msg = sharedPrefHelper.getEmailList()[iterator].name
+                sendEmailViewModel.hitSendMail(
+                    email,
+                    et_subject.text.toString(),
+                    msg
+                )
+                iterator += 1
+            } else {
+                multipleMail = false
+                Utils.generateSnackbar(send_email_coord, "Sent all the mails")
+                return
+            }
+        } else
+            Utils.generateSnackbarShort(send_email_coord, "Email Sent")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -112,16 +172,23 @@ class SendEmail : AppCompatActivity() {
             Utils.logout(this)
             return true
         }
-        if (item.itemId == R.id.dark_switch)
-        {
-            if(item.isChecked) {
+        if (item.itemId == R.id.dark_switch) {
+            if (item.isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            else {
+            } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
             item.isChecked = !item.isChecked
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        iterator = 0
+        if (sharedPrefHelper.getEmailList().isNotEmpty()) {
+            btn_add_more_to_list.visibility = View.VISIBLE
+            tv_email.visibility = View.INVISIBLE
+        }
     }
 }
