@@ -1,17 +1,23 @@
 package com.example.bulkemailapp.sendemail
 
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.bulkemailapp.MyApp
 import com.example.bulkemailapp.R
 import com.example.bulkemailapp.addMoreEmail.AddEmailFragment
+import com.example.bulkemailapp.addMoreEmail.model.AddEmailListModel
 import com.example.bulkemailapp.extra.Constants
 import com.example.bulkemailapp.extra.SharedPrefHelper
 import com.example.bulkemailapp.login.LoginVMFactory
@@ -39,19 +45,51 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
 
         (activity as AppCompatActivity).supportActionBar?.show()
 
-        loginViewModel =activity?.run {
+        loginViewModel = activity?.run {
             ViewModelProvider(this, loginVMFactory).get(LoginViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
-        loginViewModel.responseHitSend.observe(viewLifecycleOwner, Observer { this.consumeUpdateResponse(it) })
+        loginViewModel.responseHitSend.observe(
+            viewLifecycleOwner,
+            Observer { this.consumeUpdateResponse(it) })
+
+        val category = arrayListOf<String>("Name", "Email")
+        val arrayAdapter = ArrayAdapter(
+            activity!!.baseContext,
+            android.R.layout.simple_spinner_item,
+            category
+        )
+
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        var_spinner.adapter = arrayAdapter
 
         initializeClickListeners()
+//        initializeTextWatchers()
 //        enableTextFormat()
     }
 
+
+    /*private fun initializeTextWatchers() {
+        et_msg.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }*/
+
     private fun enableTextFormat() {
         val str = "<u><i><b>Message</b></i></u>"
-        et_msg.setText(str.parseHtml())
+        et_msg.setText(str)
     }
 
     private fun initializeClickListeners() {
@@ -62,9 +100,7 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
                     et_email.requestFocus()
                     Utils.popUpKeyboard(activity?.baseContext, et_email)
                     et_email.setError(this.getString(R.string.need_recipient), null)
-                }
-                else
-                {
+                } else {
                     Log.v("MAINNN", "Single")
                     loginViewModel.hitSendMail(
                         et_email.text.toString().trim(),
@@ -80,7 +116,7 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
                 loginViewModel.hitSendMail(
                     email,
                     et_subject.text.toString(),
-                    msg
+                    et_msg.text.toString()
                 )
                 iterator += 1
             }
@@ -103,6 +139,20 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
                 commit()
             }
         }
+
+        var_spinner.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View, position: Int, id: Long
+            ) {
+                val str = et_msg.text.toString() + parent.getItemAtPosition(position)
+                et_msg.setText(str)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
     }
 
     private fun consumeUpdateResponse(msg: String) {
@@ -123,7 +173,11 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
         Log.v("MAINN", Constants.error)
         when (Constants.error) {
             "javax.mail.AuthenticationFaile" -> {
-                Toast.makeText(activity?.baseContext, "Authentication error, please login again", Toast.LENGTH_LONG)
+                Toast.makeText(
+                    activity?.baseContext,
+                    "Authentication error, please login again",
+                    Toast.LENGTH_LONG
+                )
                     .show()
                 Utils.logoutFrag(activity)
             }
@@ -142,7 +196,7 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
                 loginViewModel.hitSendMail(
                     email,
                     et_subject.text.toString(),
-                    msg
+                    et_msg.text.toString()
                 )
                 iterator += 1
             } else {
@@ -160,7 +214,7 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
                 loginViewModel.hitSendMail(
                     email,
                     et_subject.text.toString(),
-                    msg
+                    et_msg.text.toString()
                 )
                 iterator += 1
             } else {
@@ -177,7 +231,7 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
         iterator = 0
         if (sharedPrefHelper.getEmailList().isNotEmpty()) {
             btn_add_more_to_list.visibility = View.VISIBLE
-            tv_email.visibility = View.INVISIBLE
+            card_email.visibility = View.INVISIBLE
         }
     }
 }

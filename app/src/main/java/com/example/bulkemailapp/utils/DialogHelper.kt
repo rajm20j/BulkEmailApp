@@ -22,33 +22,9 @@ class DialogHelper {
         this.addEmailDialogListener = addEmailDialogListener
     }
 
-    fun getAddEmailDialog()
-    {
-        val enterEmailDialog = AlertDialog.Builder(context).create()
-
-        val view = View.inflate(context, R.layout.custom_add_email_dialog, null)
-
-        Utils.popUpKeyboard(context, view.et_email_id)
-
-        view.btn_email.setOnClickListener {
-            if (view.et_email_id.text.toString().isNotEmpty()) {
-                enterEmailDialog.dismiss()
-                addEmailDialogListener.getEmailDialogBox(view.et_email_id.text.toString().trim(), view.et_name.text.toString().trim())
-            } else {
-                view.et_email_id.error = context?.getString(R.string.email_cannot_empty)
-            }
-        }
-        enterEmailDialog.setView(view)
-        enterEmailDialog.show()
-
-        enterEmailDialog.setOnDismissListener { addEmailDialogListener.dismissDialog() }
-    }
-
     fun getAddEmailSlideUp(activity: FragmentActivity)
     {
         val addPhotoBottomDialogFragment = AddMoreEmailBottomSheet.newInstance()
-
-
         addPhotoBottomDialogFragment.show(
             activity.supportFragmentManager,
             "add_email_frag")
@@ -65,29 +41,5 @@ class DialogHelper {
                 addPhotoBottomDialogFragment.et_email_id.error = context?.getString(R.string.email_cannot_empty)
             }
         }
-
-        
-    }
-
-    fun getEditEmailDialog()
-    {
-        val enterEmailDialog = AlertDialog.Builder(context).create()
-
-        val view = View.inflate(context, R.layout.custom_add_email_dialog, null)
-
-        Utils.popUpKeyboard(context, view.et_email_id)
-
-        view.btn_email.setOnClickListener {
-            if (view.et_email_id.text!!.isValidEmail()) {
-                enterEmailDialog.dismiss()
-                addEmailDialogListener.getEmailDialogBox(view.et_email_id.text.toString().trim(), view.et_name.text.toString().trim())
-            } else {
-                view.et_email_id.error = context?.getString(R.string.need_recipient)
-            }
-        }
-        enterEmailDialog.setView(view)
-        enterEmailDialog.show()
-
-        enterEmailDialog.setOnDismissListener { addEmailDialogListener.dismissDialog() }
     }
 }

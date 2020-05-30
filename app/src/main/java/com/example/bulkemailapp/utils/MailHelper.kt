@@ -77,7 +77,8 @@ class MailHelper {
             message.setFrom(InternetAddress(Constants.senderEmail))
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient.trim()))
             message.subject = subject.trim()
-            message.setText(body.trim())
+//            message.setText(body.trim())
+            message.setContent(body, "text/html")
             message
         } catch (e: Exception) {
             e.printStackTrace()

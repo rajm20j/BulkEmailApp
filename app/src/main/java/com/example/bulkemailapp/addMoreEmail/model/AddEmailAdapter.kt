@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bulkemailapp.R
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 
 class AddEmailAdapter() : RecyclerView.Adapter<AddEmailAdapter.ViewHolder>() {
@@ -37,7 +38,7 @@ class AddEmailAdapter() : RecyclerView.Adapter<AddEmailAdapter.ViewHolder>() {
     }
     
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val constraintLayout = itemView.findViewById(R.id.the_big_view) as ConstraintLayout
+        val constraintLayout = itemView.findViewById(R.id.the_big_view) as MaterialCardView
         val email = itemView.findViewById(R.id.tv_email_id) as TextView
         val name = itemView.findViewById(R.id.tv_name) as TextView
     }
