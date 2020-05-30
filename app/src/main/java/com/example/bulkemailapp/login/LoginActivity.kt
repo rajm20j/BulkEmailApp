@@ -39,12 +39,14 @@ class LoginActivity : AppCompatActivity() {
 
         if (mailHelper.getUser()) {
             supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_fragment, SendEmailFragment())
+                setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                replace(R.id.login_constraint, SendEmailFragment())
                 commit()
             }
         } else {
             supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_fragment, LoginFragment())
+                setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                replace(R.id.login_constraint, LoginFragment())
                 commit()
             }
         }

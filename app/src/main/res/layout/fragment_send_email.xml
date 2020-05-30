@@ -16,12 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="@color/cardview_light_background"
-            android:elevation="@dimen/cardview_default_elevation"
             android:hint="@string/to"
-            android:outlineProvider="bounds"
             android:padding="8dp"
-            app:boxBackgroundMode="none"
             app:endIconContentDescription="Add multiple emails"
             app:endIconDrawable="@drawable/ic_add_circle"
             app:endIconMode="custom"
@@ -39,7 +35,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/btn_add_more_to_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -62,12 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="@color/cardview_light_background"
-            android:elevation="@dimen/cardview_default_elevation"
             android:hint="@string/subject"
-            android:outlineProvider="bounds"
             android:padding="8dp"
-            app:boxBackgroundMode="none"
             app:hintTextColor="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -87,12 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="8dp"
-            android:background="@color/cardview_light_background"
-            android:elevation="@dimen/cardview_default_elevation"
             android:hint="@string/message"
-            android:outlineProvider="bounds"
             android:padding="8dp"
-            app:boxBackgroundMode="none"
             app:hintTextColor="@color/colorAccent"
             app:layout_constraintBottom_toTopOf="@+id/btn_send"
             app:layout_constraintEnd_toEndOf="parent"
@@ -112,11 +100,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="8dp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:text="@string/send_mail"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="@id/tv_msg" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

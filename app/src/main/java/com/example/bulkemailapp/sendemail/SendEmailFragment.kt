@@ -87,10 +87,9 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
         }
 
         tv_email.setEndIconOnClickListener {
-//            startActivity(Intent(this, AddEmailActivity::class.java))
             activity?.supportFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.fl_fragment, AddEmailFragment())
-                setCustomAnimations(R.anim.fragment_fade_exit, R.anim.fragment_fade_enter)
+                setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+                replace(R.id.login_constraint, AddEmailFragment())
                 addToBackStack(null)
                 commit()
             }
@@ -98,8 +97,8 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
 
         btn_add_more_to_list.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.fl_fragment, AddEmailFragment())
-                setCustomAnimations(R.anim.fragment_fade_exit, R.anim.fragment_fade_enter)
+                setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+                replace(R.id.login_constraint, AddEmailFragment())
                 addToBackStack(null)
                 commit()
             }

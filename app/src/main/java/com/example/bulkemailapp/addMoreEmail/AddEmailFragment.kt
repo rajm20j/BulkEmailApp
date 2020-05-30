@@ -17,7 +17,6 @@ import com.example.bulkemailapp.utils.AddEmailDialogListener
 import com.example.bulkemailapp.utils.DialogHelper
 import com.example.bulkemailapp.utils.Utils
 import kotlinx.android.synthetic.main.fragment_add_email.*
-import kotlinx.android.synthetic.main.activity_send_email.*
 import javax.inject.Inject
 
 class AddEmailFragment : Fragment(R.layout.fragment_add_email), AddEmailDialogListener {
@@ -52,10 +51,14 @@ class AddEmailFragment : Fragment(R.layout.fragment_add_email), AddEmailDialogLi
 
         btn_add_more.setOnClickListener {
             val dialog = DialogHelper(activity?.baseContext, this)
-            dialog.getAddEmailDialog()
+            dialog.getAddEmailSlideUp(activity!!)
         }
 
         btn_submit.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+
+            }
             activity?.supportFragmentManager?.popBackStack()
         }
     }
@@ -64,7 +67,7 @@ class AddEmailFragment : Fragment(R.layout.fragment_add_email), AddEmailDialogLi
         if(isAdded)
             adapter.notifyDataSetChanged()
         else
-            Utils.generateSnackbarShort(send_email_coord, "Unable to add email")
+            Utils.generateSnackbarShort(coord_add_email, "Unable to add email")
     }
 
     override fun getEmailDialogBox(email: String, name: String) {

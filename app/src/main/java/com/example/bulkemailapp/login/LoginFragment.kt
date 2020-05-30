@@ -109,7 +109,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun renderUpdateCompleteResponse() {
         activity?.supportFragmentManager?.beginTransaction()?.apply {
-            replace(R.id.fl_fragment, SendEmailFragment())
+            setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+            replace(R.id.login_constraint, SendEmailFragment())
             commit()
         }
     }

@@ -1,7 +1,6 @@
 package com.example.bulkemailapp.di
 
 import androidx.lifecycle.ViewModelProvider
-import com.example.bulkemailapp.addMoreEmail.AddEmailVMFactory
 import com.example.bulkemailapp.data.Repository
 import com.example.bulkemailapp.login.LoginVMFactory
 import com.example.bulkemailapp.utils.MailHelper
@@ -30,12 +29,6 @@ class UtilsModule {
     @Singleton
     internal fun getLoginVMFactory(repository: Repository, mailHelper: MailHelper): ViewModelProvider.Factory {
         return LoginVMFactory(repository, mailHelper)
-    }
-
-    @Provides
-    @Singleton
-    internal fun getAddEmailVMFactory(repository: Repository): ViewModelProvider.Factory {
-        return AddEmailVMFactory(repository)
     }
 
     @Provides
