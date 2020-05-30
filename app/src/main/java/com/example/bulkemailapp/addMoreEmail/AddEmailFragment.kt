@@ -1,8 +1,8 @@
 package com.example.bulkemailapp.addMoreEmail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,50 +11,52 @@ import com.example.bulkemailapp.R
 import com.example.bulkemailapp.addMoreEmail.model.AddEmailAdapter
 import com.example.bulkemailapp.addMoreEmail.model.AddEmailListModel
 import com.example.bulkemailapp.extra.SharedPrefHelper
+import com.example.bulkemailapp.login.LoginVMFactory
+import com.example.bulkemailapp.login.LoginViewModel
 import com.example.bulkemailapp.utils.AddEmailDialogListener
 import com.example.bulkemailapp.utils.DialogHelper
-import kotlinx.android.synthetic.main.activity_add_email.*
+import com.example.bulkemailapp.utils.Utils
+import kotlinx.android.synthetic.main.fragment_add_email.*
+import kotlinx.android.synthetic.main.activity_send_email.*
 import javax.inject.Inject
 
-class AddEmailActivity : AppCompatActivity(), AddEmailDialogListener {
-
+class AddEmailFragment : Fragment(R.layout.fragment_add_email), AddEmailDialogListener {
     @Inject
-    lateinit var addEmailVMFactory: AddEmailVMFactory
+    lateinit var loginVMFactory: LoginVMFactory
 
-    lateinit var addEmailViewModel: AddEmailViewModel
+    lateinit var loginViewModel: LoginViewModel
 
     lateinit var adapter: AddEmailAdapter
 
     @Inject
     lateinit var sharedPrefHelper: SharedPrefHelper
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_email)
-        (application as MyApp).myComponent.doInjection(this)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (activity?.application as MyApp).myComponent.doInjection(this)
 
-        addEmailViewModel =
-            ViewModelProvider(this, addEmailVMFactory).get(AddEmailViewModel::class.java)
+        loginViewModel =activity?.run {
+            ViewModelProvider(this, loginVMFactory).get(LoginViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
 
-        addEmailViewModel.responseAddEmailRv.observe(this, Observer {
+        loginViewModel.responseAddEmailRv.observe(viewLifecycleOwner, Observer {
             this.consumeTestResponse(it)
         })
 
-        adapter = AddEmailAdapter(this, sharedPrefHelper.getEmailList())
+        adapter = AddEmailAdapter(activity?.baseContext, sharedPrefHelper.getEmailList())
         rv_emails.adapter = adapter
-        rv_emails.layoutManager = LinearLayoutManager(this)
+        rv_emails.layoutManager = LinearLayoutManager(activity?.baseContext)
 
         if(sharedPrefHelper.getEmailList().isEmpty()) {
         }
         rv_emails.adapter?.notifyDataSetChanged()
 
         btn_add_more.setOnClickListener {
-            val dialog = DialogHelper(this, this)
+            val dialog = DialogHelper(activity?.baseContext, this)
             dialog.getAddEmailDialog()
         }
 
         btn_submit.setOnClickListener {
-            finish()
+            activity?.supportFragmentManager?.popBackStack()
         }
     }
 
@@ -62,14 +64,14 @@ class AddEmailActivity : AppCompatActivity(), AddEmailDialogListener {
         if(isAdded)
             adapter.notifyDataSetChanged()
         else
-            Toast.makeText(this, "Unable to add email address", Toast.LENGTH_LONG).show()
+            Utils.generateSnackbarShort(send_email_coord, "Unable to add email")
     }
 
     override fun getEmailDialogBox(email: String, name: String) {
         val item = AddEmailListModel()
         item.email = email
         item.name = name
-        addEmailViewModel.addToRv(item)
+        loginViewModel.addToRv(item)
     }
 
     override fun dismissDialog() {

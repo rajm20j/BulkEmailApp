@@ -37,6 +37,7 @@ class MailHelper {
         return false
     }
 
+
     fun testConnection(host: String, port: String): String {
         if(session == null)
             generateSession(host, port)

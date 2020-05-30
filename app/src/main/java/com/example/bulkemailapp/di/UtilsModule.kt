@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.bulkemailapp.addMoreEmail.AddEmailVMFactory
 import com.example.bulkemailapp.data.Repository
 import com.example.bulkemailapp.login.LoginVMFactory
-import com.example.bulkemailapp.sendemail.SendEmailVMFactory
-import com.example.bulkemailapp.sendemail.SendEmailViewModel
 import com.example.bulkemailapp.utils.MailHelper
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -30,14 +28,8 @@ class UtilsModule {
 
     @Provides
     @Singleton
-    internal fun getSendEmailVMFactory(repository: Repository, mailHelper: MailHelper): ViewModelProvider.Factory {
-        return SendEmailVMFactory(repository, mailHelper)
-    }
-
-    @Provides
-    @Singleton
-    internal fun getLoginVMFactory(repository: Repository): ViewModelProvider.Factory {
-        return LoginVMFactory(repository)
+    internal fun getLoginVMFactory(repository: Repository, mailHelper: MailHelper): ViewModelProvider.Factory {
+        return LoginVMFactory(repository, mailHelper)
     }
 
     @Provides

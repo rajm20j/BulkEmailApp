@@ -7,10 +7,10 @@ import com.example.bulkemailapp.R
 import kotlinx.android.synthetic.main.custom_add_email_dialog.view.*
 
 class DialogHelper {
-    private var context: Context
+    private var context: Context?
     private var addEmailDialogListener: AddEmailDialogListener
 
-    constructor(context: Context, addEmailDialogListener: AddEmailDialogListener)
+    constructor(context: Context?, addEmailDialogListener: AddEmailDialogListener)
     {
         this.context = context
         this.addEmailDialogListener = addEmailDialogListener
@@ -29,7 +29,7 @@ class DialogHelper {
                 enterEmailDialog.dismiss()
                 addEmailDialogListener.getEmailDialogBox(view.et_email_id.text.toString().trim(), view.et_name.text.toString().trim())
             } else {
-                view.et_email_id.error = context.getString(R.string.email_cannot_empty)
+                view.et_email_id.error = context?.getString(R.string.email_cannot_empty)
             }
         }
         enterEmailDialog.setView(view)
@@ -51,7 +51,7 @@ class DialogHelper {
                 enterEmailDialog.dismiss()
                 addEmailDialogListener.getEmailDialogBox(view.et_email_id.text.toString().trim(), view.et_name.text.toString().trim())
             } else {
-                view.et_email_id.error = context.getString(R.string.need_recipient)
+                view.et_email_id.error = context?.getString(R.string.need_recipient)
             }
         }
         enterEmailDialog.setView(view)

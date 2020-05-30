@@ -15,7 +15,7 @@ import com.google.android.material.textfield.TextInputEditText
 
 class AddEmailAdapter() : RecyclerView.Adapter<AddEmailAdapter.ViewHolder>() {
 
-    lateinit var context: Context
+    var context: Context? = null
     lateinit var listItems: MutableList<AddEmailListModel>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.email_list_item, parent, false)
@@ -42,7 +42,7 @@ class AddEmailAdapter() : RecyclerView.Adapter<AddEmailAdapter.ViewHolder>() {
         val name = itemView.findViewById(R.id.tv_name) as TextView
     }
 
-    constructor(context: Context, listItems: MutableList<AddEmailListModel>) : this() {
+    constructor(context: Context?, listItems: MutableList<AddEmailListModel>) : this() {
         this.context = context
         this.listItems = listItems
     }

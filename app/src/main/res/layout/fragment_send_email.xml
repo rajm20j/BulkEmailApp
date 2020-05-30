@@ -5,15 +5,9 @@
     android:layout_height="match_parent"
     android:id="@+id/send_email_coord">
 
-    <FrameLayout
-        android:id="@+id/fl_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_gravity="bottom"/>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="match_parent"
         android:padding="8dp">
 
         <com.google.android.material.textfield.TextInputLayout
