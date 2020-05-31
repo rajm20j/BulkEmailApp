@@ -52,7 +52,7 @@ class DialogHelper {
     }
 
     fun getAddTextFormatterSlideUp(activity: FragmentActivity, editText: TextInputEditText?) {
-        val textFormattingBottomSheet = TextFormattingBottomSheet.newInstance()
+        val textFormattingBottomSheet = TextFormattingBottomSheet.newInstance(editText)
         textFormattingBottomSheet.show(
             activity.supportFragmentManager,
             "text_formatter"

@@ -61,12 +61,6 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
         var_spinner?.adapter = arrayAdapter
 
         initializeClickListeners()
-        enableTextFormat()
-    }
-
-    private fun enableTextFormat() {
-        val str = "<u><i><b>Message</b></i></u>"
-        et_msg.setText(str)
     }
 
     private fun initializeClickListeners() {

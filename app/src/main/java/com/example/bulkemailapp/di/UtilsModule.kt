@@ -2,6 +2,7 @@ package com.example.bulkemailapp.di
 
 import androidx.lifecycle.ViewModelProvider
 import com.example.bulkemailapp.data.Repository
+import com.example.bulkemailapp.data.SpannableList
 import com.example.bulkemailapp.login.LoginVMFactory
 import com.example.bulkemailapp.utils.MailHelper
 import com.google.gson.Gson
@@ -27,7 +28,10 @@ class UtilsModule {
 
     @Provides
     @Singleton
-    internal fun getLoginVMFactory(repository: Repository, mailHelper: MailHelper): ViewModelProvider.Factory {
+    internal fun getLoginVMFactory(
+        repository: Repository,
+        mailHelper: MailHelper
+    ): ViewModelProvider.Factory {
         return LoginVMFactory(repository, mailHelper)
     }
 
@@ -36,4 +40,11 @@ class UtilsModule {
     internal fun getMailHelper(): MailHelper {
         return MailHelper()
     }
+
+    @Provides
+    @Singleton
+    internal fun getSpannableMsgStack(): SpannableList {
+        return SpannableList()
+    }
+
 }

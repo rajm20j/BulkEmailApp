@@ -9,6 +9,7 @@
     android:paddingTop="10dp">
 
     <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/font_style_toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -41,6 +42,7 @@
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/alignment_toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -68,4 +70,62 @@
             android:layout_height="wrap_content"
             app:icon="@drawable/ic_format_align_right" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_text_size"
+        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:icon="@drawable/ic_format_size"
+        android:checkable="true"
+        app:layout_constraintTop_toBottomOf="@+id/text_size_toggle"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:visibility="gone"
+        android:id="@+id/text_size_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/font_style_toggle"
+        app:layout_constraintStart_toStartOf="@+id/btn_text_size">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_size_minus_2"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_exposure_neg_2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_size_minus_1"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_exposure_neg_1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_size_0"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_exposure_zero" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_size_plus_1"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_exposure_plus_1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_size_plus_2"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_exposure_plus_2" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

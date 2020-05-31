@@ -1,6 +1,7 @@
 package com.example.bulkemailapp.di
 
 import com.example.bulkemailapp.addMoreEmail.AddEmailFragment
+import com.example.bulkemailapp.bottomsheets.TextFormattingBottomSheet
 import com.example.bulkemailapp.data.Repository
 import com.example.bulkemailapp.login.LoginActivity
 import com.example.bulkemailapp.login.LoginFragment
@@ -15,6 +16,8 @@ import javax.inject.Singleton
 interface AppComponent {
     fun doInjection(repository: Repository)
 
+    fun doInjection(utils: Utils)
+
     fun doInjection(sendEmailFragment: SendEmailFragment)
 
     fun doInjection(loginActivity: LoginActivity)
@@ -23,5 +26,5 @@ interface AppComponent {
 
     fun doInjection(addEmailFragment: AddEmailFragment)
 
-    fun doInjection(utils: Utils)
+    fun doInjection(textFormattingBottomSheet: TextFormattingBottomSheet)
 }

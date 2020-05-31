@@ -10,4 +10,5 @@ object Constants {
     var error = ""
     const val True = "true"
     const val False = "false"
+    const val maxSpanStackSize = 20
 }

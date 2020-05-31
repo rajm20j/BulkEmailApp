@@ -134,9 +134,9 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_format"
+                    style="@style/Widget.App.Button.IconOnly"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/format_text"
                     android:textAllCaps="false"
                     android:layout_margin="4dp"
                     android:contentDescription="@string/format_text"
