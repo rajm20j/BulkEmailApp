@@ -8,7 +8,7 @@ import androidx.annotation.Nullable
 import com.example.bulkemailapp.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class AddMoreEmailBottomSheet: BottomSheetDialogFragment() {
+class TextFormattingBottomSheet: BottomSheetDialogFragment() {
     @Nullable
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,15 +17,15 @@ class AddMoreEmailBottomSheet: BottomSheetDialogFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(
-            R.layout.custom_add_email_dialog
+            R.layout.custom_formatting_sheet
             , container,
             false
         )
     }
 
     companion object {
-        fun newInstance(): AddMoreEmailBottomSheet {
-            return AddMoreEmailBottomSheet()
+        fun newInstance(): TextFormattingBottomSheet {
+            return TextFormattingBottomSheet()
         }
     }
 }

@@ -1,29 +1,25 @@
 package com.example.bulkemailapp.sendemail
 
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.bulkemailapp.MyApp
 import com.example.bulkemailapp.R
 import com.example.bulkemailapp.addMoreEmail.AddEmailFragment
-import com.example.bulkemailapp.addMoreEmail.model.AddEmailListModel
 import com.example.bulkemailapp.extra.Constants
 import com.example.bulkemailapp.extra.SharedPrefHelper
 import com.example.bulkemailapp.login.LoginVMFactory
 import com.example.bulkemailapp.login.LoginViewModel
+import com.example.bulkemailapp.utils.DialogHelper
 import com.example.bulkemailapp.utils.Utils
-import com.example.bulkemailapp.utils.parseHtml
 import kotlinx.android.synthetic.main.fragment_send_email.*
 import javax.inject.Inject
 
@@ -53,7 +49,7 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
             viewLifecycleOwner,
             Observer { this.consumeUpdateResponse(it) })
 
-        val category = arrayListOf<String>("Name", "Email")
+        val category = arrayListOf("Name", "Email")
         val arrayAdapter = ArrayAdapter(
             activity!!.baseContext,
             android.R.layout.simple_spinner_item,
@@ -62,30 +58,11 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
 
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        var_spinner.adapter = arrayAdapter
+        var_spinner?.adapter = arrayAdapter
 
         initializeClickListeners()
-//        initializeTextWatchers()
-//        enableTextFormat()
+        enableTextFormat()
     }
-
-
-    /*private fun initializeTextWatchers() {
-        et_msg.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                TODO("Not yet implemented")
-            }
-
-        })
-    }*/
 
     private fun enableTextFormat() {
         val str = "<u><i><b>Message</b></i></u>"
@@ -140,11 +117,11 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
             }
         }
 
-        var_spinner.onItemSelectedListener = object :
+        var_spinner?.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View, position: Int, id: Long
+                view: View?, position: Int, id: Long
             ) {
                 val str = et_msg.text.toString() + parent.getItemAtPosition(position)
                 et_msg.setText(str)
@@ -152,6 +129,11 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
 
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
+        }
+
+        btn_format.setOnClickListener {
+            val dialogHelper = DialogHelper()
+            dialogHelper.getAddTextFormatterSlideUp(activity!!, et_msg)
         }
     }
 

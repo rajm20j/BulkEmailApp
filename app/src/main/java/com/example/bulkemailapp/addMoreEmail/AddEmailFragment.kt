@@ -50,7 +50,7 @@ class AddEmailFragment : Fragment(R.layout.fragment_add_email), AddEmailDialogLi
         rv_emails.adapter?.notifyDataSetChanged()
 
         btn_add_more.setOnClickListener {
-            val dialog = DialogHelper(activity?.baseContext, this)
+            val dialog = DialogHelper(activity!!.baseContext, this)
             dialog.getAddEmailSlideUp(activity!!)
         }
 

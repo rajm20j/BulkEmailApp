@@ -23,4 +23,5 @@
     <string name="underline_text">Underline Text</string>
     <string name="italic_text">Italic Text</string>
     <string name="bold_text">Bold Text</string>
+    <string name="format_text">Format Text</string>
 </resources>
