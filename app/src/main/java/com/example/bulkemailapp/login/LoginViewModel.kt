@@ -1,5 +1,6 @@
 package com.example.bulkemailapp.login
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,6 +20,7 @@ class LoginViewModel(private val repository: Repository, private val mailHelper:
     private val responseLiveData = MutableLiveData<String>()
     private val hitSendResponse = MutableLiveData<String>()
     private val addEmailRvResponse = MutableLiveData<Boolean>()
+    private val fetchOffListResponse = MutableLiveData<String>()
 
     internal val listResponse: LiveData<String>
         get() = responseLiveData
@@ -28,6 +30,9 @@ class LoginViewModel(private val repository: Repository, private val mailHelper:
 
     internal val responseAddEmailRv: LiveData<Boolean>
         get() = addEmailRvResponse
+
+    internal val responseOffListResponse: LiveData<String>
+        get() = fetchOffListResponse
 
     internal fun hitTestSession(host: String, port: String) {
         disposable.add(
@@ -68,6 +73,18 @@ class LoginViewModel(private val repository: Repository, private val mailHelper:
 
     internal fun addToRv(item: AddEmailListModel) {
         addEmailRvResponse.value = repository.addItem(item)
+    }
+
+    internal fun hitFetchOfflineApi(context: Context) {
+        repository.executeGetData(context)
+        disposable.add(repository.executeGetData(context)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { fetchOffListResponse.value = "loading" }
+            .subscribe(
+                { result -> fetchOffListResponse.value = result },
+                { error -> fetchOffListResponse.value = "error" }
+            ))
     }
 
     override fun onCleared() {

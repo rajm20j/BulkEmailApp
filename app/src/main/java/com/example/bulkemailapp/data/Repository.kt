@@ -7,6 +7,8 @@ import com.example.bulkemailapp.addMoreEmail.model.AddEmailListModel
 import com.example.bulkemailapp.extra.Constants
 import com.example.bulkemailapp.extra.SharedPrefHelper
 import com.example.bulkemailapp.utils.MailHelper
+import com.example.bulkemailapp.utils.Utils
+import io.reactivex.Single
 import java.lang.Exception
 import javax.inject.Inject
 import javax.mail.*
@@ -47,5 +49,9 @@ class Repository {
 
     fun addItem(item: AddEmailListModel): Boolean {
         return sharedPrefHelper.addToList(item)
+    }
+
+    fun executeGetData(context: Context): Single<String> {
+        return Single.just(Utils.getJson(context))
     }
 }

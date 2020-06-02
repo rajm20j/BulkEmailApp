@@ -62,6 +62,27 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
         var_spinner?.adapter = arrayAdapter
 
         initializeClickListeners()
+        loginViewModel.responseOffListResponse.observe(viewLifecycleOwner, Observer { consumeListResponse(it) })
+        loginViewModel.hitFetchOfflineApi(activity?.baseContext!!)
+    }
+
+    private fun consumeListResponse(jsonData: String?) {
+        when (jsonData) {
+            "loading" -> {}
+            "error" -> {
+                renderListErrorResponse()
+            }
+            else -> {
+                renderListSuccessResponse(jsonData)
+            }
+        }
+    }
+
+    private fun renderListSuccessResponse(jsonData: String?) {
+    }
+
+    private fun renderListErrorResponse() {
+//        TODO("Not yet implemented")
     }
 
     private fun initializeClickListeners() {

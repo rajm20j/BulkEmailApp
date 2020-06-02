@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import com.example.bulkemailapp.extra.SharedPrefHelper
 import com.example.bulkemailapp.login.LoginActivity
 import com.google.android.material.snackbar.Snackbar
+import com.example.bulkemailapp.R
 
 class Utils {
     companion object {
@@ -52,6 +53,22 @@ class Utils {
             val snack = Snackbar.make(view, str, Snackbar.LENGTH_LONG)
             ViewCompat.setElevation(snack.view, 10f)
             snack.show()
+        }
+
+        fun getJson(context: Context): String? {
+            val jsonString: String
+            try {
+                val inStream = context.resources.openRawResource(R.raw.data)
+                val buffer = ByteArray(inStream.available())
+                inStream.use { it.read(buffer) }
+
+                jsonString = String(buffer)
+            }
+            catch (e: Exception) {
+                e.printStackTrace()
+                return null
+            }
+            return jsonString
         }
     }
 }

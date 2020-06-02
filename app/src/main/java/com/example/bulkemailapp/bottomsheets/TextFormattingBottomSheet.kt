@@ -2,21 +2,25 @@ package com.example.bulkemailapp.bottomsheets
 
 import android.content.DialogInterface
 import android.graphics.Color
-import android.graphics.Typeface.*
+import android.graphics.Paint
+import android.graphics.Typeface.BOLD
+import android.graphics.Typeface.ITALIC
+import android.graphics.drawable.PaintDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.Layout
 import android.text.Spannable
+import android.text.TextPaint
 import android.text.style.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.Nullable
+import androidx.core.content.ContextCompat
 import androidx.core.text.getSpans
-import androidx.core.view.get
-import androidx.core.view.size
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.bulkemailapp.R
 import com.example.bulkemailapp.data.SpannableList
 import com.example.bulkemailapp.utils.Animations
@@ -152,117 +156,128 @@ class TextFormattingBottomSheet : BottomSheetDialogFragment() {
 
         text_color_toggle.addOnButtonCheckedListener { _, checkedId, _ ->
             if (view?.findViewById<MaterialButton>(checkedId) == btn_transparent) {
-                if(btn_text_color.isChecked)
+                btn_transparent.isChecked = false
+                if (btn_text_color.isChecked)
                     colorText(Color.TRANSPARENT)
                 else if (btn_text_highlight.isChecked)
                     highlightText(Color.TRANSPARENT)
             }
 
             if (view?.findViewById<MaterialButton>(checkedId) == btn_black) {
-                if(btn_text_color.isChecked)
+                btn_black.isChecked = false
+                if (btn_text_color.isChecked)
                     colorText(Color.BLACK)
                 else if (btn_text_highlight.isChecked)
                     highlightText(Color.BLACK)
             }
 
             if (view?.findViewById<MaterialButton>(checkedId) == btn_white) {
-                if(btn_text_color.isChecked)
+                btn_white.isChecked = false
+                if (btn_text_color.isChecked)
                     colorText(Color.WHITE)
                 else if (btn_text_highlight.isChecked)
                     highlightText(Color.WHITE)
             }
 
             if (view?.findViewById<MaterialButton>(checkedId) == btn_v) {
+                btn_v.isChecked = false
                 val color: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     resources.getColor(R.color.violet, null)
                 } else
                     resources.getColor(R.color.violet)
 
-                if(btn_text_color.isChecked){
+                if (btn_text_color.isChecked) {
                     colorText(color)
-                }
-                else if (btn_text_highlight.isChecked)
+                } else if (btn_text_highlight.isChecked)
                     highlightText(color)
             }
 
             if (view?.findViewById<MaterialButton>(checkedId) == btn_i) {
+                btn_i.isChecked = false
                 val color: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     resources.getColor(R.color.indigo, null)
                 } else
                     resources.getColor(R.color.indigo)
 
-                if(btn_text_color.isChecked){
+                if (btn_text_color.isChecked) {
                     colorText(color)
-                }
-                else if (btn_text_highlight.isChecked)
+                } else if (btn_text_highlight.isChecked)
                     highlightText(color)
             }
 
             if (view?.findViewById<MaterialButton>(checkedId) == btn_b) {
+                btn_b.isChecked = false
                 val color: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     resources.getColor(R.color.blue, null)
                 } else
                     resources.getColor(R.color.blue)
 
-                if(btn_text_color.isChecked){
+                if (btn_text_color.isChecked) {
                     colorText(color)
-                }
-                else if (btn_text_highlight.isChecked)
+                } else if (btn_text_highlight.isChecked)
                     highlightText(color)
             }
 
             if (view?.findViewById<MaterialButton>(checkedId) == btn_g) {
+                btn_g.isChecked = false
                 val color: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     resources.getColor(R.color.green, null)
                 } else
                     resources.getColor(R.color.green)
 
-                if(btn_text_color.isChecked){
+                if (btn_text_color.isChecked) {
                     colorText(color)
-                }
-                else if (btn_text_highlight.isChecked)
+                } else if (btn_text_highlight.isChecked)
                     highlightText(color)
             }
 
             if (view?.findViewById<MaterialButton>(checkedId) == btn_y) {
+                btn_y.isChecked = false
                 val color: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     resources.getColor(R.color.yellow, null)
                 } else
                     resources.getColor(R.color.yellow)
 
-                if(btn_text_color.isChecked){
+                if (btn_text_color.isChecked) {
                     colorText(color)
-                }
-                else if (btn_text_highlight.isChecked)
+                } else if (btn_text_highlight.isChecked)
                     highlightText(color)
             }
 
             if (view?.findViewById<MaterialButton>(checkedId) == btn_o) {
+                btn_o.isChecked = false
                 val color: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     resources.getColor(R.color.orange, null)
                 } else
                     resources.getColor(R.color.orange)
 
-                if(btn_text_color.isChecked){
+                if (btn_text_color.isChecked) {
                     colorText(color)
-                }
-                else if (btn_text_highlight.isChecked)
+                } else if (btn_text_highlight.isChecked)
                     highlightText(color)
             }
 
             if (view?.findViewById<MaterialButton>(checkedId) == btn_r) {
+                btn_r.isChecked = false
                 val color: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     resources.getColor(R.color.red, null)
                 } else
                     resources.getColor(R.color.red)
 
-                if(btn_text_color.isChecked){
+                if (btn_text_color.isChecked) {
                     colorText(color)
-                }
-                else if (btn_text_highlight.isChecked)
+                } else if (btn_text_highlight.isChecked)
                     highlightText(color)
             }
         }
+
+        /*btn_test.setOnClickListener {
+            val test = editText?.text?.getSpans<Any>(0, editText?.text?.length!!)
+            for(item in test!!)
+            {
+                Log.v("MAINNN", item.toString())
+            }
+        }*/
     }
 
     private fun colorText(color: Int) {
@@ -276,9 +291,17 @@ class TextFormattingBottomSheet : BottomSheetDialogFragment() {
         )
     }
 
-    private fun highlightText(color: Int) {
-        val selectionStart = editText!!.selectionStart
-        val selectionEnd = editText!!.selectionEnd
+    private fun highlightText(color: Int, startIndex: Int = -1, endIndex: Int = -1) {
+
+        var selectionStart = editText!!.selectionStart
+        var selectionEnd = editText!!.selectionEnd
+
+        if(startIndex != -1 && endIndex != -1)
+        {
+            Log.v("MAINNN", startIndex.toString()+endIndex.toString())
+            selectionStart = startIndex
+            selectionEnd = endIndex
+        }
 
         editText?.text?.setSpan(
             BackgroundColorSpan(color),
@@ -341,8 +364,26 @@ class TextFormattingBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun alignRight() {
-        val selectionStart = editText!!.selectionStart
-        val selectionEnd = editText!!.selectionEnd
+        var selectionStart = editText!!.selectionStart
+        var selectionEnd = editText!!.selectionEnd
+
+        var i = selectionStart
+        while (i >= 0) {
+            if (i == 0 || editText?.text?.get(i - 1) == '\n') {
+                selectionStart = i
+                break
+            }
+            i--
+        }
+        i = selectionEnd
+        while (i <= editText?.text?.length?.minus(1)!!) {
+            if (i == editText?.text?.length?.minus(1) || editText?.text?.get(i) == '\n') {
+                selectionEnd = i
+                break
+            }
+            i++
+        }
+
         editText?.text?.setSpan(
             AlignmentSpan.Standard(Layout.Alignment.ALIGN_OPPOSITE),
             selectionStart, selectionEnd,
@@ -351,8 +392,26 @@ class TextFormattingBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun alignLeft() {
-        val selectionStart = editText!!.selectionStart
-        val selectionEnd = editText!!.selectionEnd
+        var selectionStart = editText!!.selectionStart
+        var selectionEnd = editText!!.selectionEnd
+
+        var i = selectionStart
+        while (i >= 0) {
+            if (i == 0 || editText?.text?.get(i - 1) == '\n') {
+                selectionStart = i
+                break
+            }
+            i--
+        }
+        i = selectionEnd
+        while (i <= editText?.text?.length?.minus(1)!!) {
+            if (i == editText?.text?.length?.minus(1) || editText?.text?.get(i) == '\n') {
+                selectionEnd = i
+                break
+            }
+            i++
+        }
+
         editText?.text?.setSpan(
             AlignmentSpan.Standard(Layout.Alignment.ALIGN_NORMAL),
             selectionStart, selectionEnd,
@@ -361,8 +420,26 @@ class TextFormattingBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun alignCenter() {
-        val selectionStart = editText!!.selectionStart
-        val selectionEnd = editText!!.selectionEnd
+        var selectionStart = editText!!.selectionStart
+        var selectionEnd = editText!!.selectionEnd
+
+        var i = selectionStart
+        while (i >= 0) {
+            if (i == 0 || editText?.text?.get(i - 1) == '\n') {
+                selectionStart = i
+                break
+            }
+            i--
+        }
+        i = selectionEnd
+        while (i <= editText?.text?.length?.minus(1)!!) {
+            if (i == editText?.text?.length?.minus(1) || editText?.text?.get(i) == '\n') {
+                selectionEnd = i
+                break
+            }
+            i++
+        }
+
         editText?.text?.setSpan(
             AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
             selectionStart, selectionEnd,
@@ -381,7 +458,21 @@ class TextFormattingBottomSheet : BottomSheetDialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
+        Log.v("MAINNN", "onDismiss()")
+
+        val test = editText?.text?.getSpans<BackgroundColorSpan>(0, editText?.text?.length!!)
+        for (item in test!!) {
+            val startIndex = editText?.text?.getSpanStart(item)
+            val endIndex = editText?.text?.getSpanEnd(item)
+            val color = item.backgroundColor
+
+            highlightText(color, startIndex!!, endIndex!!)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        dismiss()
     }
 
     companion object {
