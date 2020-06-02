@@ -1,6 +1,7 @@
 package com.example.bulkemailapp.utils
 
 import android.os.Build
+import android.text.Editable
 import android.text.Html
 import android.text.Spanned
 import android.text.TextUtils
@@ -20,10 +21,10 @@ fun String.toHtml(): Spanned {
     }
 }
 
-/*fun String.fromHtml(): String {
+fun Editable.fromHtml(): String {
     return if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
         Html.toHtml(this)
     } else {
         Html.toHtml(this, Html.FROM_HTML_MODE_LEGACY)
     }
-}*/
+}

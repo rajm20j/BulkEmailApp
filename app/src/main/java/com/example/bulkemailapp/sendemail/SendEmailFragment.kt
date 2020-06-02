@@ -20,6 +20,7 @@ import com.example.bulkemailapp.login.LoginVMFactory
 import com.example.bulkemailapp.login.LoginViewModel
 import com.example.bulkemailapp.utils.DialogHelper
 import com.example.bulkemailapp.utils.Utils
+import com.example.bulkemailapp.utils.fromHtml
 import kotlinx.android.synthetic.main.fragment_send_email.*
 import javax.inject.Inject
 
@@ -76,7 +77,7 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
                     loginViewModel.hitSendMail(
                         et_email.text.toString().trim(),
                         et_subject.text.toString(),
-                        et_msg.text.toString()
+                        et_msg.text!!.fromHtml()
                     )
                 }
             } else {
@@ -87,7 +88,7 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
                 loginViewModel.hitSendMail(
                     email,
                     et_subject.text.toString(),
-                    et_msg.text.toString()
+                    et_msg.text!!.fromHtml()
                 )
                 iterator += 1
             }
@@ -172,7 +173,7 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
                 loginViewModel.hitSendMail(
                     email,
                     et_subject.text.toString(),
-                    et_msg.text.toString()
+                    et_msg.text!!.fromHtml()
                 )
                 iterator += 1
             } else {
@@ -190,7 +191,7 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
                 loginViewModel.hitSendMail(
                     email,
                     et_subject.text.toString(),
-                    et_msg.text.toString()
+                    et_msg.text!!.fromHtml()
                 )
                 iterator += 1
             } else {
