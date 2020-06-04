@@ -20,7 +20,8 @@ class LoginViewModel(private val repository: Repository, private val mailHelper:
     private val responseLiveData = MutableLiveData<String>()
     private val hitSendResponse = MutableLiveData<String>()
     private val addEmailRvResponse = MutableLiveData<Boolean>()
-    private val fetchOffListResponse = MutableLiveData<String>()
+//    private val fetchOffListResponse = MutableLiveData<String>()
+    private val fetchOffListResponse = MutableLiveData<MutableList<List<String>>>()
 
     internal val listResponse: LiveData<String>
         get() = responseLiveData
@@ -31,7 +32,10 @@ class LoginViewModel(private val repository: Repository, private val mailHelper:
     internal val responseAddEmailRv: LiveData<Boolean>
         get() = addEmailRvResponse
 
-    internal val responseOffListResponse: LiveData<String>
+    /*internal val responseOffListResponse: LiveData<String>
+        get() = fetchOffListResponse*/
+
+    internal val responseOffListResponse: LiveData<MutableList<List<String>>>
         get() = fetchOffListResponse
 
     internal fun hitTestSession(host: String, port: String) {
@@ -75,7 +79,7 @@ class LoginViewModel(private val repository: Repository, private val mailHelper:
         addEmailRvResponse.value = repository.addItem(item)
     }
 
-    internal fun hitFetchOfflineApi(context: Context) {
+    /*internal fun hitFetchOfflineApi(context: Context) {
         repository.executeGetData(context)
         disposable.add(repository.executeGetData(context)
             .subscribeOn(Schedulers.io())
@@ -84,6 +88,17 @@ class LoginViewModel(private val repository: Repository, private val mailHelper:
             .subscribe(
                 { result -> fetchOffListResponse.value = result },
                 { error -> fetchOffListResponse.value = "error" }
+            ))
+    }*/
+
+    internal fun hitFetchOfflineApi(context: Context) {
+//        repository.executeGetCsvData(context)
+        disposable.add(repository.executeGetCsvData(context)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { result -> fetchOffListResponse.value = result },
+                { fetchOffListResponse.value = mutableListOf() }
             ))
     }
 

@@ -54,4 +54,8 @@ class Repository {
     fun executeGetData(context: Context): Single<String> {
         return Single.just(Utils.getJson(context))
     }
+
+    fun executeGetCsvData(context: Context): Single<MutableList<List<String>>> {
+        return Single.just(Utils.getCsv(context))
+    }
 }

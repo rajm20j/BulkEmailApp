@@ -2,25 +2,19 @@ package com.example.bulkemailapp.bottomsheets
 
 import android.content.DialogInterface
 import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.Typeface.BOLD
 import android.graphics.Typeface.ITALIC
-import android.graphics.drawable.PaintDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.Layout
 import android.text.Spannable
-import android.text.TextPaint
 import android.text.style.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.Nullable
-import androidx.core.content.ContextCompat
 import androidx.core.text.getSpans
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.example.bulkemailapp.R
 import com.example.bulkemailapp.data.SpannableList
 import com.example.bulkemailapp.utils.Animations
@@ -123,7 +117,7 @@ class TextFormattingBottomSheet : BottomSheetDialogFragment() {
             }
         }
 
-        font_toggle_group.addOnButtonCheckedListener { group, checkedId, isChecked ->
+        font_toggle_group.addOnButtonCheckedListener { group, _, _ ->
             when (group.checkedButtonId) {
                 -1 -> {
                     text_size_toggle.visibility = View.GONE

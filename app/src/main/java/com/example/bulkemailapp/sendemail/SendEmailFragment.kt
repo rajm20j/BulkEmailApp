@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_send_email.*
 import javax.inject.Inject
 
 class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
+    private lateinit var arrayAdapter: ArrayAdapter<String>
     lateinit var loginViewModel: LoginViewModel
 
     @Inject
@@ -33,11 +35,14 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
     @Inject
     lateinit var sharedPrefHelper: SharedPrefHelper
 
+    private val category: ArrayList<String> = arrayListOf()
+
     var multipleMail = false
     var iterator = 0
+    var spinnerInitialized = false
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         (activity?.application as MyApp).myComponent.doInjection(this)
 
         (activity as AppCompatActivity).supportActionBar?.show()
@@ -46,40 +51,55 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
             ViewModelProvider(this, loginVMFactory).get(LoginViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         loginViewModel.responseHitSend.observe(
             viewLifecycleOwner,
             Observer { this.consumeUpdateResponse(it) })
 
-        val category = arrayListOf("Name", "Email")
-        val arrayAdapter = ArrayAdapter(
+        initializeClickListeners()
+
+        loginViewModel.responseOffListResponse.observe(
+            viewLifecycleOwner,
+            Observer { consumeListResponse(it) })
+        loginViewModel.hitFetchOfflineApi(activity?.baseContext!!)
+    }
+
+    private fun consumeListResponse(csvData: MutableList<List<String>>) {
+        when (csvData.size) {
+            0 -> { renderListErrorResponse() }
+            else -> {renderListSuccessResponse(csvData)}
+        }
+    }
+
+    private fun renderListSuccessResponse(csvData: MutableList<List<String>>) {
+        Log.v("MAINNN", csvData.size.toString())
+
+        val catList = arrayListOf<String>()
+        catList.add(Constants.defaultSpinnerItem)
+        for(item in csvData[0])
+            catList.add(item)
+        if(!spinnerInitialized)
+        {
+            initializeSpinner(catList)
+            spinnerInitialized = true
+        }
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        var_spinner?.adapter = arrayAdapter
+    }
+
+    private fun initializeSpinner(catList: ArrayList<String>) {
+        category.addAll(catList)
+        arrayAdapter = ArrayAdapter(
             activity!!.baseContext,
             android.R.layout.simple_spinner_item,
             category
         )
-
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        var_spinner?.adapter = arrayAdapter
-
-        initializeClickListeners()
-        loginViewModel.responseOffListResponse.observe(viewLifecycleOwner, Observer { consumeListResponse(it) })
-        loginViewModel.hitFetchOfflineApi(activity?.baseContext!!)
     }
 
-    private fun consumeListResponse(jsonData: String?) {
-        when (jsonData) {
-            "loading" -> {}
-            "error" -> {
-                renderListErrorResponse()
-            }
-            else -> {
-                renderListSuccessResponse(jsonData)
-            }
-        }
-    }
-
-    private fun renderListSuccessResponse(jsonData: String?) {
-    }
 
     private fun renderListErrorResponse() {
 //        TODO("Not yet implemented")
@@ -139,10 +159,12 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
                 parent: AdapterView<*>,
                 view: View?, position: Int, id: Long
             ) {
-                val str = et_msg.text.toString() + parent.getItemAtPosition(position)
-                et_msg.setText(str)
+                if(parent.getItemAtPosition(position) != Constants.defaultSpinnerItem)
+                {
+                    val str = et_msg.text.toString() + parent.getItemAtPosition(position)
+                    et_msg.setText(str)
+                }
             }
-
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }

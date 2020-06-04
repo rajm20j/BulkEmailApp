@@ -11,4 +11,5 @@ object Constants {
     const val True = "true"
     const val False = "false"
     const val maxSpanStackSize = 20
+    const val defaultSpinnerItem: String = "-- Select a variable --"
 }
