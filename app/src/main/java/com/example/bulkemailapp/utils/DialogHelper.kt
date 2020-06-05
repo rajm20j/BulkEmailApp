@@ -1,19 +1,13 @@
 package com.example.bulkemailapp.utils
 
-import android.app.AlertDialog
 import android.content.Context
-import android.util.Log
-import android.view.View
-import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.example.bulkemailapp.R
 import com.example.bulkemailapp.bottomsheets.AddMoreEmailBottomSheet
+import com.example.bulkemailapp.bottomsheets.EmailOptionsBottomSheet
 import com.example.bulkemailapp.bottomsheets.TextFormattingBottomSheet
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.custom_add_email_dialog.*
-import kotlinx.android.synthetic.main.custom_add_email_dialog.view.*
-import kotlinx.android.synthetic.main.custom_add_email_dialog.view.et_email_id
 
 class DialogHelper {
     private lateinit var context: Context
@@ -56,6 +50,14 @@ class DialogHelper {
         textFormattingBottomSheet.show(
             activity.supportFragmentManager,
             "text_formatter"
+        )
+    }
+
+    fun getEmailOptionsSlideUp(activity: FragmentActivity) {
+        val emailOptionsBS = EmailOptionsBottomSheet.newInstance()
+        emailOptionsBS.show(
+            activity.supportFragmentManager,
+            "email_options"
         )
     }
 }

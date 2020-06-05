@@ -135,13 +135,18 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
             }
         }
 
-        tv_email.setEndIconOnClickListener {
+        /*tv_email.setEndIconOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
                 replace(R.id.login_constraint, AddEmailFragment())
                 addToBackStack(null)
                 commit()
             }
+        }*/
+
+        tv_email.setEndIconOnClickListener {
+            val dialogHelper = DialogHelper()
+            dialogHelper.getEmailOptionsSlideUp(activity!!)
         }
 
         btn_add_more_to_list.setOnClickListener {
@@ -166,6 +171,7 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
+
             }
         }
 
