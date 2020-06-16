@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_send_email.*
 import javax.inject.Inject
 
 class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
+    private lateinit var catList: java.util.ArrayList<String>
     private lateinit var arrayAdapter: ArrayAdapter<String>
     lateinit var loginViewModel: LoginViewModel
 
@@ -78,7 +79,7 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
     private fun renderListSuccessResponse(csvData: MutableList<List<String>>) {
         Log.v("MAINNN", csvData.size.toString())
 
-        val catList = arrayListOf<String>()
+        catList = arrayListOf<String>()
         catList.add(Constants.defaultSpinnerItem)
         for(item in csvData[0])
             catList.add(item)
@@ -146,7 +147,10 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
 
         tv_email.setEndIconOnClickListener {
             val dialogHelper = DialogHelper()
-            dialogHelper.getEmailOptionsSlideUp(activity!!)
+            val listItem : MutableList<String> = mutableListOf()
+            for(i in 1 until catList.size)
+                listItem.add(catList[i])
+            dialogHelper.getEmailOptionsSlideUp(activity!!, listItem)
         }
 
         btn_add_more_to_list.setOnClickListener {

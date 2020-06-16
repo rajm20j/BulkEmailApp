@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".bottomsheets.HeadingListBottomSheet">
+
+    <TextView
+        android:id="@+id/tv_select_email_col"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/list_item_spacing"
+        android:paddingTop="@dimen/list_item_spacing_half"
+        android:paddingRight="@dimen/list_item_spacing"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:text="@string/select_the_column"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/divider_view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/almostWhite"
+        android:layout_marginTop="@dimen/list_item_spacing_half"
+        android:layout_marginStart="@dimen/list_item_spacing"
+        android:layout_marginEnd="@dimen/list_item_spacing"
+        android:layout_marginBottom="@dimen/list_item_spacing"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/tv_select_email_col"
+        app:layout_constraintBottom_toTopOf="@+id/rv_head_list"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_head_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/list_item_spacing_half"
+        tools:listitem="@layout/fragment_heading_list_bottom_sheet_list"
+        app:layout_constraintTop_toBottomOf="@+id/divider_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

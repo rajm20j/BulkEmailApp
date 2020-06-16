@@ -26,4 +26,5 @@
     <string name="format_text">Format Text</string>
     <string name="add_to_list">Add to list</string>
     <string name="add_through_csv">Add through CSV</string>
+    <string name="select_the_column">Select the column containing email addresses</string>
 </resources>

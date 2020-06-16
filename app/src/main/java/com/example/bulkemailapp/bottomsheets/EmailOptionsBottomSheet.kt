@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.annotation.Nullable
 import com.example.bulkemailapp.R
 import com.example.bulkemailapp.addMoreEmail.AddEmailFragment
+import com.example.bulkemailapp.utils.DialogHelper
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.custom_email_option.*
 
 class EmailOptionsBottomSheet: BottomSheetDialogFragment() {
+    lateinit var listItem: List<String>
+
     @Nullable
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,13 +45,17 @@ class EmailOptionsBottomSheet: BottomSheetDialogFragment() {
         }
 
         via_csv.setOnClickListener {
-
+            val dialogHelper = DialogHelper()
+            dialogHelper.getHeadingListSlideUp(activity!!, listItem)
+            dismiss()
         }
     }
 
     companion object {
-        fun newInstance(): EmailOptionsBottomSheet {
-            return EmailOptionsBottomSheet()
+        fun newInstance(listItem: List<String>): EmailOptionsBottomSheet {
+            val emailOptionsBottomSheet = EmailOptionsBottomSheet()
+            emailOptionsBottomSheet.listItem = listItem
+            return emailOptionsBottomSheet
         }
     }
 }

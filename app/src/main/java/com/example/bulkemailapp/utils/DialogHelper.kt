@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import com.example.bulkemailapp.R
 import com.example.bulkemailapp.bottomsheets.AddMoreEmailBottomSheet
 import com.example.bulkemailapp.bottomsheets.EmailOptionsBottomSheet
+import com.example.bulkemailapp.bottomsheets.HeadingListBottomSheet
 import com.example.bulkemailapp.bottomsheets.TextFormattingBottomSheet
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.custom_add_email_dialog.*
@@ -53,11 +54,19 @@ class DialogHelper {
         )
     }
 
-    fun getEmailOptionsSlideUp(activity: FragmentActivity) {
-        val emailOptionsBS = EmailOptionsBottomSheet.newInstance()
+    fun getEmailOptionsSlideUp(activity: FragmentActivity, listItem: List<String>) {
+        val emailOptionsBS = EmailOptionsBottomSheet.newInstance(listItem)
         emailOptionsBS.show(
             activity.supportFragmentManager,
             "email_options"
+        )
+    }
+
+    fun getHeadingListSlideUp(activity: FragmentActivity, listItem: List<String>) {
+        val emailOptionsBS = HeadingListBottomSheet.newInstance(listItem)
+        emailOptionsBS.show(
+            activity.supportFragmentManager,
+            "heading_list"
         )
     }
 }
