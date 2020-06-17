@@ -27,4 +27,7 @@
     <string name="add_to_list">Add to list</string>
     <string name="add_through_csv">Add through CSV</string>
     <string name="select_the_column">Select the column containing email addresses</string>
+    <string name="drive_url">Drive URL</string>
+    <string name="enter_drive_link">Enter drive link to your CSV file</string>
+    <string name="download">Download</string>
 </resources>

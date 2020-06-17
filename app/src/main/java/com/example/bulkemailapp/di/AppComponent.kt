@@ -2,6 +2,7 @@ package com.example.bulkemailapp.di
 
 import com.example.bulkemailapp.addMoreEmail.AddEmailFragment
 import com.example.bulkemailapp.bottomsheets.TextFormattingBottomSheet
+import com.example.bulkemailapp.bottomsheets.downloadLinkBottomList.DownloadLinkBottomSheet
 import com.example.bulkemailapp.data.Repository
 import com.example.bulkemailapp.login.LoginActivity
 import com.example.bulkemailapp.login.LoginFragment
@@ -27,4 +28,6 @@ interface AppComponent {
     fun doInjection(addEmailFragment: AddEmailFragment)
 
     fun doInjection(textFormattingBottomSheet: TextFormattingBottomSheet)
+
+    fun doInjection(downloadLinkBottomSheet: DownloadLinkBottomSheet)
 }

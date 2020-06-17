@@ -1,6 +1,7 @@
 package com.example.bulkemailapp.addMoreEmail
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -45,8 +46,6 @@ class AddEmailFragment : Fragment(R.layout.fragment_add_email), AddEmailDialogLi
         rv_emails.adapter = adapter
         rv_emails.layoutManager = LinearLayoutManager(activity?.baseContext)
 
-        if(sharedPrefHelper.getEmailList().isEmpty()) {
-        }
         rv_emails.adapter?.notifyDataSetChanged()
 
         btn_add_more.setOnClickListener {
@@ -60,6 +59,13 @@ class AddEmailFragment : Fragment(R.layout.fragment_add_email), AddEmailDialogLi
 
             }
             activity?.supportFragmentManager?.popBackStack()
+        }
+
+        Handler().post{
+            kotlin.run {
+                if(sharedPrefHelper.getEmailList().isEmpty())
+                    btn_add_more.performClick()
+            }
         }
     }
 

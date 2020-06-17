@@ -7,6 +7,7 @@ import com.example.bulkemailapp.bottomsheets.AddMoreEmailBottomSheet
 import com.example.bulkemailapp.bottomsheets.EmailOptionsBottomSheet
 import com.example.bulkemailapp.bottomsheets.HeadingListBottomSheet
 import com.example.bulkemailapp.bottomsheets.TextFormattingBottomSheet
+import com.example.bulkemailapp.bottomsheets.downloadLinkBottomList.DownloadLinkBottomSheet
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.custom_add_email_dialog.*
 
@@ -54,8 +55,8 @@ class DialogHelper {
         )
     }
 
-    fun getEmailOptionsSlideUp(activity: FragmentActivity, listItem: List<String>) {
-        val emailOptionsBS = EmailOptionsBottomSheet.newInstance(listItem)
+    fun getEmailOptionsSlideUp(activity: FragmentActivity) {
+        val emailOptionsBS = EmailOptionsBottomSheet.newInstance()
         emailOptionsBS.show(
             activity.supportFragmentManager,
             "email_options"
@@ -67,6 +68,14 @@ class DialogHelper {
         emailOptionsBS.show(
             activity.supportFragmentManager,
             "heading_list"
+        )
+    }
+
+    fun getDownloadCsvSlideUp(activity: FragmentActivity) {
+        val downloadBS = DownloadLinkBottomSheet.newInstance()
+        downloadBS.show(
+            activity.supportFragmentManager,
+            "download_options"
         )
     }
 }

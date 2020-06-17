@@ -38,9 +38,9 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
 
     private val category: ArrayList<String> = arrayListOf()
 
-    var multipleMail = false
+    private var multipleMail = false
     var iterator = 0
-    var spinnerInitialized = false
+    private var spinnerInitialized = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,10 +147,7 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
 
         tv_email.setEndIconOnClickListener {
             val dialogHelper = DialogHelper()
-            val listItem : MutableList<String> = mutableListOf()
-            for(i in 1 until catList.size)
-                listItem.add(catList[i])
-            dialogHelper.getEmailOptionsSlideUp(activity!!, listItem)
+            dialogHelper.getEmailOptionsSlideUp(activity!!)
         }
 
         btn_add_more_to_list.setOnClickListener {

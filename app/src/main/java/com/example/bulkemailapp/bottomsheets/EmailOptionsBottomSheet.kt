@@ -12,7 +12,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.custom_email_option.*
 
 class EmailOptionsBottomSheet: BottomSheetDialogFragment() {
-    lateinit var listItem: List<String>
 
     @Nullable
     override fun onCreateView(
@@ -46,16 +45,14 @@ class EmailOptionsBottomSheet: BottomSheetDialogFragment() {
 
         via_csv.setOnClickListener {
             val dialogHelper = DialogHelper()
-            dialogHelper.getHeadingListSlideUp(activity!!, listItem)
+            dialogHelper.getDownloadCsvSlideUp(activity!!)
             dismiss()
         }
     }
 
     companion object {
-        fun newInstance(listItem: List<String>): EmailOptionsBottomSheet {
-            val emailOptionsBottomSheet = EmailOptionsBottomSheet()
-            emailOptionsBottomSheet.listItem = listItem
-            return emailOptionsBottomSheet
+        fun newInstance(): EmailOptionsBottomSheet {
+            return EmailOptionsBottomSheet()
         }
     }
 }
