@@ -15,4 +15,7 @@ object Constants {
     const val False = "false"
     const val maxSpanStackSize = 20
     const val defaultSpinnerItem: String = "-- Select a variable --"
+    const val idLength: Int = 33
+    const val itIsAFolder = "itsAFolder"
+    const val appendToDownloadURL = "https://drive.google.com/uc?export=download&id="
 }

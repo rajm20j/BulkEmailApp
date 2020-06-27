@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -106,8 +107,8 @@ class Utils {
             context.registerReceiver(onDownloadComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
             val request =
                 DownloadManager.Request(Uri.parse(link))
-                    .setTitle("Dummy File") // Title of the Download Notification
-                    .setDescription("Downloading") // Description of the Download Notification
+                    .setTitle("CSV downloading") // Title of the Download Notification
+//                    .setDescription("Downloading") // Description of the Download Notification
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE) // Visibility of the download Notification
 //                    .setDestinationUri(Uri.fromFile(file)) // Uri of the destination file
 //                    .setRequiresCharging(false) // Set if charging is required to begin the download
@@ -115,12 +116,26 @@ class Utils {
                     .setAllowedOverRoaming(true) // Set if download is allowed on roaming network
                     .setDestinationInExternalPublicDir(
                         Environment.DIRECTORY_DOCUMENTS,
-                        "bulkMail/test.jpg");
+                        "bulkMail/test.csv");
 
             val downloadManager =
                 context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             Constants.downloadID =
                 downloadManager.enqueue(request) // enqueue puts the download request in the queue
+        }
+
+        fun getId(url: String): String {
+            if(url.contains("folderview"))
+                return Constants.itIsAFolder
+            else {
+                val words = url.split('/')
+                for (word in words)
+                {
+                    if(word.length == Constants.idLength)
+                        return word
+                }
+            }
+            return Constants.itIsAFolder
         }
     }
 }
