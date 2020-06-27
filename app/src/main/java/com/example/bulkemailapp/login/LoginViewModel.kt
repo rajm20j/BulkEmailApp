@@ -1,6 +1,9 @@
 package com.example.bulkemailapp.login
 
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,6 +25,7 @@ class LoginViewModel(private val repository: Repository, private val mailHelper:
     private val addEmailRvResponse = MutableLiveData<Boolean>()
 //    private val fetchOffListResponse = MutableLiveData<String>()
     private val fetchOffListResponse = MutableLiveData<MutableList<List<String>>>()
+    private val downloadResponse = MutableLiveData<Boolean>()
 
     internal val listResponse: LiveData<String>
         get() = responseLiveData
@@ -37,6 +41,9 @@ class LoginViewModel(private val repository: Repository, private val mailHelper:
 
     internal val responseOffListResponse: LiveData<MutableList<List<String>>>
         get() = fetchOffListResponse
+
+    internal val responseDownload: LiveData<Boolean>
+        get() = downloadResponse
 
     internal fun hitTestSession(host: String, port: String) {
         disposable.add(
@@ -100,6 +107,18 @@ class LoginViewModel(private val repository: Repository, private val mailHelper:
                 { result -> fetchOffListResponse.value = result },
                 { fetchOffListResponse.value = mutableListOf() }
             ))
+    }
+
+    internal fun hitDownloadCSV(link: String, context: Context) {
+        repository.executeDownloadCsv(link, context, onDownloadComplete)
+    }
+
+    private val onDownloadComplete: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            Log.v("MAINN", "${Constants.downloadID} == $id")
+            downloadResponse.value = Constants.downloadID == id
+        }
     }
 
     override fun onCleared() {

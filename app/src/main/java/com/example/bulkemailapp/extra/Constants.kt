@@ -3,6 +3,9 @@ package com.example.bulkemailapp.extra
 import com.example.bulkemailapp.addMoreEmail.model.AddEmailListModel
 
 object Constants {
+    var downloadID: Long = 0
+    var isDownloaded = false
+    var downloadURL: String = "https://drive.google.com/uc?export=download&id=1Aob_eQ5jlEeoa60GRNFMeZZjBJ78f0vj"
     const val senderEmail = "senderEmail"
     const val senderPass = "senderPass"
     const val loading = "loading"

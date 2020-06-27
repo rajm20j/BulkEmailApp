@@ -1,5 +1,6 @@
 package com.example.bulkemailapp.data
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.util.Log
 import com.example.bulkemailapp.MyApp
@@ -57,5 +58,13 @@ class Repository {
 
     fun executeGetCsvData(context: Context): Single<MutableList<List<String>>> {
         return Single.just(Utils.getCsv(context))
+    }
+
+    fun executeDownloadCsv(
+        link: String,
+        context: Context,
+        onDownloadComplete: BroadcastReceiver
+    ) {
+        Utils.downloadCsv(link, context, onDownloadComplete)
     }
 }
