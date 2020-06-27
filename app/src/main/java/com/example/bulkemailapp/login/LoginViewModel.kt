@@ -4,7 +4,9 @@ import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -116,8 +118,39 @@ class LoginViewModel(private val repository: Repository, private val mailHelper:
     private val onDownloadComplete: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-            Log.v("MAINN", "${Constants.downloadID} == $id")
-            downloadResponse.value = Constants.downloadID == id
+            if (Constants.downloadID == id) {
+                val c: Cursor?
+                val downloadManager: DownloadManager? =  context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                val query: DownloadManager.Query? = DownloadManager.Query()
+
+                if(query != null)
+                {
+                    query.setFilterByStatus(DownloadManager.STATUS_FAILED or DownloadManager.STATUS_PAUSED or DownloadManager.STATUS_SUCCESSFUL or
+                            DownloadManager.STATUS_RUNNING or DownloadManager.STATUS_PENDING)
+                }
+                else
+                    return
+
+                c = downloadManager?.query(query)
+
+                if(c!!.moveToFirst())
+                {
+                    when(c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
+                        DownloadManager.STATUS_PAUSED -> {
+                        }
+                        DownloadManager.STATUS_PENDING -> {
+                        }
+                        DownloadManager.STATUS_RUNNING -> {
+                        }
+                        DownloadManager.STATUS_SUCCESSFUL -> {
+                            downloadResponse.value = true
+                        }
+                        DownloadManager.STATUS_FAILED -> {
+                            downloadResponse.value = false
+                        }
+                    }
+                }
+            }
         }
     }
 
