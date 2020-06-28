@@ -1,5 +1,6 @@
 package com.example.bulkemailapp.sendemail
 
+import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -8,7 +9,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.fragment_send_email.*
 import javax.inject.Inject
 
 class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
-    private lateinit var catList: java.util.ArrayList<String>
     private lateinit var arrayAdapter: ArrayAdapter<String>
     lateinit var loginViewModel: LoginViewModel
 
@@ -40,7 +39,6 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
 
     private var multipleMail = false
     var iterator = 0
-    private var spinnerInitialized = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,48 +60,25 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
             Observer { this.consumeUpdateResponse(it) })
 
         initializeClickListeners()
-
-        loginViewModel.responseOffListResponse.observe(
-            viewLifecycleOwner,
-            Observer { consumeListResponse(it) })
-        loginViewModel.hitFetchOfflineApi(activity?.baseContext!!)
+        initializeStackUpdateListener()
+        initializeSpinner()
+        Constants.sendMailSpinner = var_spinner
     }
 
-    private fun consumeListResponse(csvData: MutableList<List<String>>) {
-        when (csvData.size) {
-            0 -> { renderListErrorResponse() }
-            else -> {renderListSuccessResponse(csvData)}
+    private fun initializeStackUpdateListener() {
+        Log.v("MAINN", activity!!.supportFragmentManager.backStackEntryCount.toString())
+        activity!!.supportFragmentManager.addOnBackStackChangedListener {
+            Log.v("MAINN", "Backstack changed")
         }
     }
 
-    private fun renderListSuccessResponse(csvData: MutableList<List<String>>) {
-        Log.v("MAINNN", csvData.size.toString())
-
-        catList = arrayListOf<String>()
-        catList.add(Constants.defaultSpinnerItem)
-        for(item in csvData[0])
-            catList.add(item)
-        if(!spinnerInitialized)
-        {
-            initializeSpinner(catList)
-            spinnerInitialized = true
-        }
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        var_spinner?.adapter = arrayAdapter
-    }
-
-    private fun initializeSpinner(catList: ArrayList<String>) {
-        category.addAll(catList)
-        arrayAdapter = ArrayAdapter(
+    private fun initializeSpinner() {
+        Constants.arrayAdapter = ArrayAdapter(
             activity!!.baseContext,
-            android.R.layout.simple_spinner_item,
-            category
+            android.R.layout.simple_spinner_dropdown_item,
+            Constants.headingList!!
         )
-    }
-
-
-    private fun renderListErrorResponse() {
-//        TODO("Not yet implemented")
+        var_spinner.adapter = Constants.arrayAdapter
     }
 
     private fun initializeClickListeners() {
@@ -261,4 +236,6 @@ class SendEmailFragment : Fragment(R.layout.fragment_send_email) {
             card_email.visibility = View.INVISIBLE
         }
     }
+
+
 }

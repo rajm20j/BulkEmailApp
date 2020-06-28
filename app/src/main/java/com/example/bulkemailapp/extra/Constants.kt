@@ -1,11 +1,11 @@
 package com.example.bulkemailapp.extra
 
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import com.example.bulkemailapp.addMoreEmail.model.AddEmailListModel
 
 object Constants {
     var downloadID: Long = 0
-    var isDownloaded = false
-    var downloadURL: String = "https://drive.google.com/uc?export=download&id=1Aob_eQ5jlEeoa60GRNFMeZZjBJ78f0vj"
     const val senderEmail = "senderEmail"
     const val senderPass = "senderPass"
     const val loading = "loading"
@@ -18,4 +18,8 @@ object Constants {
     const val idLength: Int = 33
     const val itIsAFolder = "itsAFolder"
     const val appendToDownloadURL = "https://drive.google.com/uc?export=download&id="
+    var filename = "test.csv"
+    var headingList: MutableList<String>? = mutableListOf()
+    var arrayAdapter: ArrayAdapter<String>? = null
+    var sendMailSpinner: Spinner? = null
 }

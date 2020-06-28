@@ -1,4 +1,4 @@
-package com.example.bulkemailapp.bottomsheets.downloadLinkBottomList
+package com.example.bulkemailapp.bottomsheets
 
 import android.Manifest
 import android.app.AlertDialog
@@ -11,17 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.Nullable
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.bulkemailapp.MyApp
 import com.example.bulkemailapp.R
-import com.example.bulkemailapp.bottomsheets.AddMoreEmailBottomSheet
 import com.example.bulkemailapp.extra.Constants
 import com.example.bulkemailapp.extra.SharedPrefHelper
-import com.example.bulkemailapp.login.LoginActivity
 import com.example.bulkemailapp.login.LoginVMFactory
 import com.example.bulkemailapp.login.LoginViewModel
 import com.example.bulkemailapp.utils.DialogHelper
@@ -31,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_download_sheet.*
 import javax.inject.Inject
 
 class DownloadLinkBottomSheet : BottomSheetDialogFragment() {
-    lateinit var loginViewModel: LoginViewModel
+    private lateinit var loginViewModel: LoginViewModel
 
     private var READ_PERMISSION_CODE = 1
 
@@ -51,13 +48,27 @@ class DownloadLinkBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun consumeDownloadResponse(it: Boolean) {
+        Log.v("MAINN", "Isme ja ra hai")
         if(it)
         {
             Toast.makeText(activity?.baseContext, "Download Complete", Toast.LENGTH_LONG).show()
 
+            val list = Utils.getCsvFromDocuments(activity!!.baseContext)
+
+            val headingList = mutableListOf<String>()
+            for (item in list[0])
+                headingList.add(item)
+
+            Constants.headingList?.clear()
+            Constants.headingList?.add(Constants.defaultSpinnerItem)
+            Constants.headingList?.addAll(headingList)
+            Constants.arrayAdapter?.notifyDataSetChanged()
+            Constants.sendMailSpinner?.visibility = View.VISIBLE
+
             val dialogHelper = DialogHelper()
-            dialogHelper.getHeadingListSlideUp(activity!!, listOf("ABC", "DEF"))
+            dialogHelper.getHeadingListSlideUp(activity!!, headingList)
             dismiss()
+            loginViewModel.hitClearCSV()
         }
         else
         {
@@ -87,8 +98,7 @@ class DownloadLinkBottomSheet : BottomSheetDialogFragment() {
             Observer { consumeDownloadResponse(it) })
 
         btn_download.setOnClickListener {
-            Toast.makeText(activity!!.baseContext, "btn_download pressed", Toast.LENGTH_SHORT).show()
-            if(ContextCompat.checkSelfPermission(context!!, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            if(ContextCompat.checkSelfPermission(context!!, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
                 download()
             else
                 requestPermissions()
@@ -96,12 +106,12 @@ class DownloadLinkBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun requestPermissions() {
-        if(ActivityCompat.shouldShowRequestPermissionRationale(activity!!, android.Manifest.permission.READ_EXTERNAL_STORAGE)){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(activity!!, Manifest.permission.READ_EXTERNAL_STORAGE)){
             AlertDialog.Builder(activity!!)
                 .setTitle("Permission Needed")
                 .setMessage("This permission is needed to access the downloaded csv file.")
                 .setPositiveButton("Ok") { _, _ ->
-                    requestPermissions(listOf(android.Manifest.permission.READ_EXTERNAL_STORAGE).toTypedArray(), READ_PERMISSION_CODE)
+                    requestPermissions(listOf(Manifest.permission.READ_EXTERNAL_STORAGE).toTypedArray(), READ_PERMISSION_CODE)
                 }
                 .setNegativeButton("Cancel") {dialog, _ ->
                     dialog.dismiss()

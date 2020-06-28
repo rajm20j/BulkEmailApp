@@ -1,6 +1,8 @@
 package com.example.bulkemailapp.bottomsheets
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +32,9 @@ class HeadingListBottomSheet : BottomSheetDialogFragment() {
         rv_head_list.layoutManager =
             LinearLayoutManager(context)
         rv_head_list.adapter = ItemAdapter(listItems?.size!!)
+
+        Log.v("MAINN", activity!!.supportFragmentManager.backStackEntryCount.toString())
+
     }
 
     private inner class ViewHolder internal constructor(

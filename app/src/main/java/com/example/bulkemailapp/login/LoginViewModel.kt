@@ -27,7 +27,7 @@ class LoginViewModel(private val repository: Repository, private val mailHelper:
     private val addEmailRvResponse = MutableLiveData<Boolean>()
 //    private val fetchOffListResponse = MutableLiveData<String>()
     private val fetchOffListResponse = MutableLiveData<MutableList<List<String>>>()
-    private val downloadResponse = MutableLiveData<Boolean>()
+    private var downloadResponse = MutableLiveData<Boolean>()
 
     internal val listResponse: LiveData<String>
         get() = responseLiveData
@@ -88,31 +88,12 @@ class LoginViewModel(private val repository: Repository, private val mailHelper:
         addEmailRvResponse.value = repository.addItem(item)
     }
 
-    /*internal fun hitFetchOfflineApi(context: Context) {
-        repository.executeGetData(context)
-        disposable.add(repository.executeGetData(context)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { fetchOffListResponse.value = "loading" }
-            .subscribe(
-                { result -> fetchOffListResponse.value = result },
-                { error -> fetchOffListResponse.value = "error" }
-            ))
-    }*/
-
-    internal fun hitFetchOfflineApi(context: Context) {
-//        repository.executeGetCsvData(context)
-        disposable.add(repository.executeGetCsvData(context)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { result -> fetchOffListResponse.value = result },
-                { fetchOffListResponse.value = mutableListOf() }
-            ))
-    }
-
     internal fun hitDownloadCSV(link: String, context: Context) {
         repository.executeDownloadCsv(link, context, onDownloadComplete)
+    }
+
+    internal fun hitClearCSV() {
+        downloadResponse = MutableLiveData()
     }
 
     private val onDownloadComplete: BroadcastReceiver = object : BroadcastReceiver() {

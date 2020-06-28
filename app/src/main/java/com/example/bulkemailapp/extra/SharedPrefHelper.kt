@@ -14,6 +14,7 @@ class SharedPrefHelper(context: Context) {
         private const val PREFS_NAME = "appname_prefs"
         private lateinit var sharedPreferences: SharedPreferences
         val emailList = mutableListOf<AddEmailListModel>()
+        var csvList: MutableList<List<String>>? = null
 
         fun setInt(key: String, value: Int) {
             sharedPreferences.edit().putInt(key, value)?.apply()
@@ -44,6 +45,14 @@ class SharedPrefHelper(context: Context) {
 
         fun getBool(key: String): Boolean {
             return sharedPreferences.getBoolean(key, false)
+        }
+
+        fun getCSVList(): MutableList<List<String>>? {
+            return csvList
+        }
+
+        fun setCSVList(list: MutableList<List<String>>?) {
+            csvList = list
         }
     }
 

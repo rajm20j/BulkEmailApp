@@ -7,20 +7,21 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Environment
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.FragmentActivity
+import com.example.bulkemailapp.extra.Constants
 import com.example.bulkemailapp.extra.SharedPrefHelper
 import com.example.bulkemailapp.login.LoginActivity
 import com.google.android.material.snackbar.Snackbar
-import com.example.bulkemailapp.R
-import com.example.bulkemailapp.extra.Constants
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStreamReader
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Utils {
     companion object {
@@ -64,30 +65,17 @@ class Utils {
             snack.show()
         }
 
-        fun getJson(context: Context): String? {
-            val jsonString: String
-            try {
-                val inStream = context.resources.openRawResource(R.raw.data)
-                val buffer = ByteArray(inStream.available())
-                inStream.use { it.read(buffer) }
+        fun getCsvFromDocuments(context: Context): MutableList<List<String>> {
+            val file =
+                File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),Constants.filename)
 
-                jsonString = String(buffer)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                return null
-            }
-            return jsonString
-        }
-
-        fun getCsv(context: Context): MutableList<List<String>> {
-            val inputStream = context.resources.openRawResource(R.raw.data_1)
+            val inputStream = file.inputStream()
 
             val ids = mutableListOf<List<String>>()
-            var id = listOf<String>()
-
+            var id: List<String>
             val reader = BufferedReader(InputStreamReader(inputStream))
             try {
-                var csv = ""
+                var csv: String
                 while (true) {
                     csv = reader.readLine()
                     id = csv.split(",")
@@ -96,6 +84,7 @@ class Utils {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+            SharedPrefHelper.setCSVList(ids)
             return ids
         }
 
@@ -104,19 +93,18 @@ class Utils {
             context: Context,
             onDownloadComplete: BroadcastReceiver
         ) {
+            Constants.filename = SimpleDateFormat("yyyymmddhhmmss").format(Calendar.getInstance().time).toString()+".csv"
             context.registerReceiver(onDownloadComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
             val request =
                 DownloadManager.Request(Uri.parse(link))
                     .setTitle("CSV downloading") // Title of the Download Notification
-//                    .setDescription("Downloading") // Description of the Download Notification
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE) // Visibility of the download Notification
-//                    .setDestinationUri(Uri.fromFile(file)) // Uri of the destination file
-//                    .setRequiresCharging(false) // Set if charging is required to begin the download
-                    .setAllowedOverMetered(true) // Set if download is allowed on Mobile network
-                    .setAllowedOverRoaming(true) // Set if download is allowed on roaming network
-                    .setDestinationInExternalPublicDir(
+                    .setAllowedOverMetered(true)
+                    .setAllowedOverRoaming(true)
+                    .setDestinationInExternalFilesDir(
+                        context,
                         Environment.DIRECTORY_DOCUMENTS,
-                        "bulkMail/test.csv");
+                        Constants.filename);
 
             val downloadManager =
                 context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager

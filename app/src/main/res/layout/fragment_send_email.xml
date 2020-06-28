@@ -143,6 +143,7 @@
                     app:icon="@drawable/ic_text_format"/>
 
                 <Spinner
+                    android:visibility="gone"
                     android:id="@+id/var_spinner"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"/>

@@ -9,10 +9,9 @@ import com.example.bulkemailapp.extra.Constants
 import com.example.bulkemailapp.extra.SharedPrefHelper
 import com.example.bulkemailapp.utils.MailHelper
 import com.example.bulkemailapp.utils.Utils
-import io.reactivex.Single
-import java.lang.Exception
 import javax.inject.Inject
-import javax.mail.*
+import javax.mail.Message
+import javax.mail.Transport
 
 class Repository {
     @Inject
@@ -50,14 +49,6 @@ class Repository {
 
     fun addItem(item: AddEmailListModel): Boolean {
         return sharedPrefHelper.addToList(item)
-    }
-
-    fun executeGetData(context: Context): Single<String> {
-        return Single.just(Utils.getJson(context))
-    }
-
-    fun executeGetCsvData(context: Context): Single<MutableList<List<String>>> {
-        return Single.just(Utils.getCsv(context))
     }
 
     fun executeDownloadCsv(

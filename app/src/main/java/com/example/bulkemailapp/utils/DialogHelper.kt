@@ -7,7 +7,7 @@ import com.example.bulkemailapp.bottomsheets.AddMoreEmailBottomSheet
 import com.example.bulkemailapp.bottomsheets.EmailOptionsBottomSheet
 import com.example.bulkemailapp.bottomsheets.HeadingListBottomSheet
 import com.example.bulkemailapp.bottomsheets.TextFormattingBottomSheet
-import com.example.bulkemailapp.bottomsheets.downloadLinkBottomList.DownloadLinkBottomSheet
+import com.example.bulkemailapp.bottomsheets.DownloadLinkBottomSheet
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.custom_add_email_dialog.*
 
